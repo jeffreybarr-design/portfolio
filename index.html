@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jeff Barr, Product Designer</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon/favicon-96x96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,700;1,9..40,200;1,9..40,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -253,7 +258,8 @@ nav.scrolled {
 
 /* Soft fade at the bottom of the hero — blends the dark hero background
    into the light section below instead of a hard edge */
-.hero-fade {
+.hero-fade,
+.case-hero-fade {
   display: block;
   position: absolute;
   left: 0;
@@ -264,6 +270,7 @@ nav.scrolled {
   z-index: 1;
   pointer-events: none;
 }
+.case-hero-fade { height: 260px; }
 
 /* Hero photo — right aligned, full height */
 .hero-photo-wrap {
@@ -520,7 +527,7 @@ nav.scrolled {
 .about-banner-img {
   width: 100%;
   border-radius: var(--r-16);
-  aspect-ratio: 21/6;
+  aspect-ratio: 2560/1156;
   object-fit: cover;
   background: var(--primary-600);
   display: flex;
@@ -532,7 +539,7 @@ nav.scrolled {
 .about-banner-placeholder {
   width: 100%;
   border-radius: 24px;
-  aspect-ratio: 21/6;
+  aspect-ratio: 2560/1156;
   background: var(--primary-600);
   display: flex;
   align-items: center;
@@ -542,6 +549,13 @@ nav.scrolled {
   letter-spacing: 2px;
   text-transform: uppercase;
   box-shadow: -10px -10px 0px 0px var(--glitch-red), 10px 10px 0px 0px var(--glitch-cyan);
+  overflow: hidden;
+}
+.about-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ═══════════════════════════════════════
@@ -697,7 +711,7 @@ nav.scrolled {
 .logos-track {
   display: flex;
   align-items: center;
-  gap: var(--sp-24);
+  gap: 80px;
   width: max-content;
   animation: logos-scroll 30s linear infinite;
 }
@@ -706,9 +720,7 @@ nav.scrolled {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 180px;
   height: 74px;
-  padding: 0 8px;
   background: transparent;
   border: 0;
 }
@@ -720,18 +732,6 @@ nav.scrolled {
   filter: grayscale(1) brightness(1.15);
   opacity: 0.85;
   transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
-}
-.logo-slide--rovi,
-.logo-slide--ahi,
-.logo-slide--gore,
-.logo-slide--healthinsurancecom,
-.logo-slide--allmovie {
-  min-width: 170px;
-}
-.logo-slide--rovi,
-.logo-slide--ahi,
-.logo-slide--gore {
-  padding: 0 2px;
 }
 .logo-slide--healthinsurancecom img {
   max-height: 34px;
@@ -1195,9 +1195,18 @@ footer {
   .about-banner {
     padding: 64px 0 40px;
   }
+  .about-banner-placeholder,
+  .about-banner-img {
+    aspect-ratio: 1/1;
+  }
 
   .logos-section {
     padding: 56px 0 48px;
+  }
+
+  .logos-track {
+    gap: 40px;
+    animation-duration: 22s;
   }
 
   .logos-label {
@@ -1283,6 +1292,8 @@ footer {
 
   /* Case studies */
   .case-hero-wrap { padding: 120px var(--gutter) 0; }
+  .case-hero-red { right: -30%; width: 150%; height: 700px; bottom: -15%; }
+  .case-hero-blue { left: -35%; width: 140%; height: 700px; bottom: -15%; }
   .case-meta-bar { grid-template-columns: 1fr 1fr; padding: 0 var(--gutter); }
   .case-meta-row { grid-template-columns: 1fr 1fr; }
   .case-body { padding: 0 var(--gutter) var(--sp-64); }
@@ -1290,7 +1301,7 @@ footer {
   .next-bar { padding: var(--sp-24) var(--gutter); }
 
   /* Typography — mobile scale from tokens */
-  .case-hero-title { font-size: 34px; text-shadow: 2px 0px 0px var(--glitch-cyan), -2px 0px 0px var(--glitch-red); }
+  .case-hero-title { font-size: 64px; text-shadow: 2px 0px 0px var(--glitch-cyan), -2px 0px 0px var(--glitch-red); }
 }
 </style>
 </head>
@@ -1569,7 +1580,7 @@ footer {
       <h1 class="case-hero-title">Deposits & No-Show Protection</h1>
       <p class="case-hero-sub">Designing financial protection for independent beauty professionals. The feature had to work cleanly for dozens of scenarios across both sides of the marketplace, from simple bookings to complex cancellation edge cases.</p>
     </div>
-    <img class="hero-fade" src="graygrad.svg" alt="" />
+    <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
   <div class="case-body">
    <div class="case-body-inner">
@@ -1661,7 +1672,7 @@ footer {
       <h1 class="case-hero-title">AI Social Post Builder</h1>
       <p class="case-hero-sub">The first AI content creation tool in the beauty industry. No competitors, no playbook. I designed the entire experience from scratch, including the AI prompting strategy, topic architecture, and brand personalization system.</p>
     </div>
-    <img class="hero-fade" src="graygrad.svg" alt="" />
+    <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
   <div class="case-body">
    <div class="case-body-inner">
@@ -1752,7 +1763,7 @@ footer {
       <h1 class="case-hero-title">Custom Websites</h1>
       <p class="case-hero-sub">A top-requested feature that pros couldn't afford or build on their own. I designed the entire product from zero: three professional templates, a no-code builder, and a hero image system, all built to get a pro live in minutes, not hours.</p>
     </div>
-    <img class="hero-fade" src="graygrad.svg" alt="" />
+    <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
   <div class="case-body">
    <div class="case-body-inner">
@@ -1842,7 +1853,7 @@ footer {
       <h1 class="case-hero-title">Medicare Shopping Experience</h1>
       <p class="case-hero-sub">Simplifying the hardest parts of Medicare shopping for seniors on mobile. I focused on plan comparison, plan details, search results, and the drug lookup tool, applying deep health insurance domain knowledge to problems that most designers would struggle to even frame correctly.</p>
     </div>
-    <img class="hero-fade" src="graygrad.svg" alt="" />
+    <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
   <div class="case-body">
    <div class="case-body-inner">

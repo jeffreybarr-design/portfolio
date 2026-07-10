@@ -55,7 +55,7 @@
   --effect-3d: box-shadow: 4px 0px 0px 0px #15CEE2, -4px 0px 0px 0px #EE2025;
   --effect-3d-sub: 3px 0px 0px 0px #15CEE2, -3px 0px 0px 0px #EE2025;
   --effect-card: 0px 4px 10px 0px rgba(0,0,0,0.1);
-  --effect-card-hover: 6px 6px 0px 0px #15CEE2, -6px -5px 0px 0px #EE2025;
+  --effect-card-hover: 6px 6px 0px 0px #15CEE2, -6px -6px 0px 0px #EE2025;
   --effect-photo-border: -10px -10px 0px 0px #EE2025, 10px 10px 0px 0px #15CEE2;
 
   /* Spacing */
@@ -84,6 +84,7 @@
    ═══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+picture { display: contents; }
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -125,7 +126,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 60px;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0px;
 }
 .h4 {
@@ -176,7 +177,7 @@ nav {
   transition: background 0.3s;
 }
 nav.scrolled {
-  background: rgba(23,23,16,0.80);
+  background: rgba(19,23,28,0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
@@ -302,14 +303,15 @@ nav.scrolled {
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 0 var(--gutter);
+  padding-left: calc(var(--gutter) + max(0px, (100vw - 2 * var(--gutter) - var(--max-width)) / 2));
+  padding-right: var(--gutter);
   padding-bottom: 208px;
   padding-top: 160px;
-  max-width: 700px;
 }
 .hero-text {
   position: relative;
   z-index: 1;
+  max-width: 700px;
 }
 .hero-name {
   font-family: var(--font-display);
@@ -328,8 +330,8 @@ nav.scrolled {
   font-weight: 200;
   font-style: normal;
   font-size: clamp(32px, 4.2vw, 64px);
-  line-height: 0.95;
-  letter-spacing: 2px;
+  line-height: 0.8;
+  letter-spacing: 1px;
   color: var(--accent);
   display: block;
   margin-bottom: var(--sp-24);
@@ -376,7 +378,7 @@ nav.scrolled {
    ═══════════════════════════════════════ */
 .work-section {
   background: #E9ECF0;
-  padding: var(--sp-96) 0;
+  padding: var(--sp-80) 0;
 }
 
 .work-section .section-title {
@@ -397,7 +399,7 @@ nav.scrolled {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 60px;
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: -2px;
   color: var(--text-dark);
   margin-bottom: var(--sp-56);
@@ -413,7 +415,6 @@ nav.scrolled {
 .case-card {
   background: var(--bg-card);
   border-radius: var(--r-16);
-  overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -421,7 +422,15 @@ nav.scrolled {
   box-shadow: var(--effect-card);
   transition: box-shadow 0.25s, transform 0.2s;
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(32px);
 }
+@keyframes cardReveal { to { opacity: 1; transform: translateY(0); } }
+.cards-grid.vis .case-card { animation: cardReveal 0.6s ease forwards; }
+.cards-grid.vis .case-card:nth-child(1) { animation-delay: 0s; }
+.cards-grid.vis .case-card:nth-child(2) { animation-delay: 0.1s; }
+.cards-grid.vis .case-card:nth-child(3) { animation-delay: 0.2s; }
+.cards-grid.vis .case-card:nth-child(4) { animation-delay: 0.3s; }
 .case-card:hover {
   box-shadow: var(--effect-card-hover);
   transform: translateY(-2px);
@@ -431,6 +440,7 @@ nav.scrolled {
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
+  border-radius: var(--r-16) var(--r-16) 0 0;
   background: #E8E8E4;
   position: relative;
 }
@@ -446,7 +456,6 @@ nav.scrolled {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 8px;
   color: #B0B0A8;
   font-size: 11px;
   letter-spacing: 1.5px;
@@ -596,7 +605,7 @@ nav.scrolled {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 18px;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: #BBC4D3;
   margin-bottom: var(--sp-24);
@@ -626,7 +635,7 @@ nav.scrolled {
 }
 .about-text p {
   font-family: var(--font-body);
-  font-weight: normal;
+  font-weight: 300;
   font-size: 20px;
   line-height: 1.6;
   color: #E9ECF0;
@@ -905,7 +914,7 @@ footer {
 }
 .case-hero-red { right: -10%; width: 90%; }
 .case-hero-blue { left: -10%; width: 80%; }
-.case-hero-inner { position: relative; z-index: 1; max-width: var(--max-width); margin: 0 auto; padding-bottom: 260px; }
+.case-hero-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding-bottom: 260px; }
 
 .back-btn {
   display: inline-flex;
@@ -941,7 +950,8 @@ footer {
   display: block;
 }
 .case-hero-sub {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 300;
   line-height: 1.6;
   color: var(--text-secondary);
   max-width: 1128px;
@@ -960,26 +970,30 @@ footer {
   padding: 0 var(--gutter);
 }
 .case-meta-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(0,0,0,0.08);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  margin-bottom: var(--sp-56);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: rgba(187, 196, 211, 0.3);
+  border-radius: 24px;
+  padding: 40px 40px;
+  margin-bottom: 80px;
   color: #2E353F;
 }
 .case-meta-cell {
-  padding: var(--sp-20) var(--sp-24) var(--sp-20) 0;
-  border-right: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-12);
 }
-.case-meta-cell:last-child { border-right: none; }
+.case-meta-icon { width: 32px; height: 32px; flex-shrink: 0; }
 .case-meta-label {
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: 16px;
+  letter-spacing: 0px;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #2E353F;
+  color: #4C5564  ;
   margin-bottom: var(--sp-4);
 }
-.case-meta-val { font-size: 14px; color: #2E353F; overflow-wrap: break-word; }
+.case-meta-val { font-size: 18px; color: #2E353F; overflow-wrap: break-word; }
 
 .case-body {
   background: #E9ECF0;
@@ -991,29 +1005,30 @@ footer {
 }
 .cs { max-width: 720px; margin: 0 auto var(--sp-72); }
 .cs-label {
-  font-size: 10px;
-  letter-spacing: 2.5px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #6C798D;
+  color: #4C5564;
   margin-bottom: var(--sp-16);
-  display: flex;
-  align-items: center;
-  gap: var(--sp-16);
+  text-align: center;
 }
-.cs-label::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.08); }
 .cs h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 60px;
+  line-height: 1;
   letter-spacing: -1px;
   color: var(--text-dark);
   margin-bottom: var(--sp-20);
+  text-align: center;
 }
 .cs p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #4C5564;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #2E353F;
   margin-bottom: var(--sp-16);
 }
 .cs p strong { color: var(--text-dark); font-weight: 500; }
@@ -1036,6 +1051,26 @@ footer {
   margin: var(--sp-48) auto;
 }
 .case-img svg { opacity: 0.4; }
+
+.solution-gallery-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.solution-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--sp-24);
+  max-width: 1280px;
+  margin: var(--sp-48) auto;
+}
+.solution-gallery img {
+  width: 100%;
+  max-width: 280px;
+  min-width: 0;
+  height: auto;
+  border-radius: var(--r-16);
+}
 
 .process-list {
   display: flex;
@@ -1077,58 +1112,100 @@ footer {
   margin: 0;
 }
 
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+  width: min(1024px, calc(100vw - 2 * var(--gutter)));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.quote-block {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .quote {
-  border-left: 3px solid var(--glitch-red);
-  padding: var(--sp-20) var(--sp-24);
+  position: relative;
+  padding: 24px;
   background: var(--bg-card);
-  box-shadow: var(--effect-card);
-  border-radius: 0 var(--r-8) var(--r-8) 0;
-  margin: var(--sp-32) 0;
+  border-radius: 24px;
+  flex: 1;
+}
+.quote::after {
+  content: '';
+  position: absolute;
+  left: 32px;
+  bottom: -14px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 14px 0 0;
+  border-color: var(--bg-card) transparent transparent transparent;
 }
 .quote p {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 400;
   font-size: 18px;
   line-height: 1.5;
-  color: var(--text-dark);
-  font-style: italic;
-  margin: 0 0 var(--sp-8);
+  color: #2E353F;
+  font-style: normal;
+  margin: 0;
+}
+.quote-person {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-12);
+  margin-top: var(--sp-24);
+}
+.quote-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  object-fit: cover;
 }
 .quote-attr {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #6C798D;
+  font-size: 16px;
+  color: var(--text-dark);
 }
 
 .outcomes-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
+  gap: 16px;
   margin-top: var(--sp-24);
-  background: rgba(0,0,0,0.06);
-  border-radius: var(--r-16);
-  overflow: hidden;
+  width: min(1024px, calc(100vw - 2 * var(--gutter)));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .oc {
   background: #13171C;
-  padding: var(--sp-24);
+  border-radius: 32px;
+  padding: 32px;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.oc:first-child { border-radius: var(--r-16) 0 0 0; }
-.oc:nth-child(3) { border-radius: 0 var(--r-16) 0 0; }
-.oc:nth-child(4) { border-radius: 0 0 0 var(--r-16); }
-.oc:last-child { border-radius: 0 0 var(--r-16) 0; }
+.outcomes-grid.vis .oc { opacity: 1; transform: translateY(0); }
+.oc:nth-child(1) { transition-delay: 0s; }
+.oc:nth-child(2) { transition-delay: 0.1s; }
+.oc:nth-child(3) { transition-delay: 0.2s; }
+.oc:nth-child(4) { transition-delay: 0.3s; }
+.oc:nth-child(5) { transition-delay: 0.4s; }
+.oc:nth-child(6) { transition-delay: 0.5s; }
 .oc-num {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 40px;
+  font-weight: 100;
+  font-size: 64px;
   line-height: 1;
-  color: var(--accent);
+  color: var(--secondary-200);
   margin-bottom: var(--sp-8);
   display: block;
-  display: inline-block;
 }
-.oc-label { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+.oc-label { font-size: 18px; color: #E9ECF0; line-height: 1.4; }
 
 .case-footer-wrap {
   position: relative;
@@ -1148,20 +1225,21 @@ footer {
 .next-bar {
   position: relative;
   z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
   padding: var(--sp-32) var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: background 0.2s;
-  max-width: 100%;
 }
 .next-bar:hover { background: rgba(255,255,255,0.04); }
 .next-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--sp-4); }
 .next-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 32px;
   color: var(--text-primary);
   display: inline-block;
 }
@@ -1172,6 +1250,13 @@ footer {
    ═══════════════════════════════════════ */
 .fi { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fi.vis { opacity: 1; transform: translateY(0); }
+
+.solution-gallery img { opacity: 0; transform: translateY(48px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.solution-gallery-wrap.vis img { opacity: 1; transform: translateY(0); }
+.solution-gallery img:nth-child(1) { transition-delay: 0s; }
+.solution-gallery img:nth-child(2) { transition-delay: 0.15s; }
+.solution-gallery img:nth-child(3) { transition-delay: 0.3s; }
+.solution-gallery img:nth-child(4) { transition-delay: 0.45s; }
 
 /* ═══════════════════════════════════════
    RESPONSIVE — Tablet (768–1024px)
@@ -1184,6 +1269,51 @@ footer {
   .about-grid { grid-template-columns: 1fr; gap: var(--sp-48); }
   .tags-grid { grid-template-columns: 1fr 1fr; }
   .case-meta-bar { grid-template-columns: 1fr 1fr; }
+  .solution-gallery-wrap::before,
+  .solution-gallery-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: var(--sp-16);
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .solution-gallery-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #E9ECF0, transparent);
+  }
+  .solution-gallery-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #E9ECF0, transparent);
+  }
+  .solution-gallery {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 48px var(--sp-16);
+  }
+  .solution-gallery img {
+    flex: 0 0 auto;
+    max-width: 220px;
+    scroll-snap-align: start;
+  }
+}
+
+/* Meta row card needs to switch to its tighter, wrapped layout a bit
+   earlier than the rest of the tablet breakpoint — the fixed desktop
+   padding/single-row layout gets cramped before 1024px. */
+@media (max-width: 1180px) {
+  .case-meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--sp-24);
+    column-gap: var(--sp-24);
+    padding: 40px 40px;
+  }
+  .case-meta-label { font-size: 14px; }
+  .case-meta-val { font-size: 16px; }
 }
 
 /* ═══════════════════════════════════════
@@ -1191,6 +1321,9 @@ footer {
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
   :root { --gutter: var(--gutter-sm); }
+
+  .solution-gallery img { max-width: 180px; scroll-snap-align: center; }
+  .solution-gallery { padding-left: calc(50% - 90px); padding-right: calc(50% - 90px); }
 
   .about-banner {
     padding: 64px 0 40px;
@@ -1295,13 +1428,20 @@ footer {
   .case-hero-red { right: -30%; width: 150%; height: 700px; bottom: -15%; }
   .case-hero-blue { left: -35%; width: 140%; height: 700px; bottom: -15%; }
   .case-meta-bar { grid-template-columns: 1fr 1fr; padding: 0 var(--gutter); }
-  .case-meta-row { grid-template-columns: 1fr 1fr; }
+  .case-meta-row { display: flex; flex-direction: column; gap: var(--sp-24); padding: 24px; }
+  .case-meta-label { font-size: 14px; }
+  .case-meta-val { font-size: 16px; }
   .case-body { padding: 0 var(--gutter) var(--sp-64); }
-  .outcomes-grid { grid-template-columns: 1fr 1fr; }
+  .outcomes-grid { grid-template-columns: 1fr; }
+  .quotes-grid { grid-template-columns: 1fr; }
   .next-bar { padding: var(--sp-24) var(--gutter); }
 
   /* Typography — mobile scale from tokens */
   .case-hero-title { font-size: 64px; text-shadow: 2px 0px 0px var(--glitch-cyan), -2px 0px 0px var(--glitch-red); }
+  .cs h3 { font-size: 34px; }
+  .case-hero-sub { font-size: 18px; }
+  .cs p { font-size: 16px; }
+  .card-desc { font-size: 16px; }
 }
 </style>
 </head>
@@ -1330,7 +1470,10 @@ footer {
     <div class="hero-photo-wrap">
       <img class="hero-bg-red-mobile" src="red.svg" alt="" />
       <img class="hero-bg-blue-mobile" src="blue.svg" alt="" />
-      <img class="hero-photo" src="hero.png" alt="Jeff Barr" onerror="this.style.display='none'">
+      <picture>
+        <source srcset="hero.avif" type="image/avif">
+        <img class="hero-photo" src="hero.png" alt="Jeff Barr" fetchpriority="high" onerror="this.style.display='none'">
+      </picture>
     </div>
     <div class="hero-content">
       <div class="hero-text">
@@ -1351,13 +1494,16 @@ footer {
     <div class="container">
       <p class="section-eyebrow fi">Selected Work</p>
       <h3 class="section-title fi">Case Studies</h3>
-      <div class="cards-grid fi">
+      <div class="cards-grid gallery-reveal">
 
         <!-- Deposits -->
         <a class="case-card" onclick="showCase('deposits');return false;" href="#">
           <div class="card-image">
             <div class="card-image-placeholder">
-              <img class="card-image" src="homedeposit.png" alt="Deposits" onerror="this.style.display='none'">
+              <picture>
+                <source srcset="homedeposit.avif" type="image/avif">
+                <img src="homedeposit.png" alt="Deposits" loading="lazy" onerror="this.style.display='none'">
+              </picture>
             </div>
           </div>
           <div class="card-body">
@@ -1372,7 +1518,10 @@ footer {
         <a class="case-card" onclick="showCase('spb');return false;" href="#">
           <div class="card-image">
             <div class="card-image-placeholder">
-              <img class="card-image" src="homesocialpost.png" alt="Social Post Builder" onerror="this.style.display='none'">
+              <picture>
+                <source srcset="homesocialpost.avif" type="image/avif">
+                <img src="homesocialpost.png" alt="Social Post Builder" loading="lazy" onerror="this.style.display='none'">
+              </picture>
             </div>
           </div>
           <div class="card-body">
@@ -1387,7 +1536,10 @@ footer {
         <a class="case-card" onclick="showCase('cw');return false;" href="#">
           <div class="card-image">
             <div class="card-image-placeholder">
-              <img class="card-image" src="homecustomweb.png" alt="Custom Websites" onerror="this.style.display='none'">
+              <picture>
+                <source srcset="homecustomweb.avif" type="image/avif">
+                <img src="homecustomweb.png" alt="Custom Websites" loading="lazy" onerror="this.style.display='none'">
+              </picture>
             </div>
           </div>
           <div class="card-body">
@@ -1402,7 +1554,10 @@ footer {
         <a class="case-card" onclick="showCase('medicare');return false;" href="#">
           <div class="card-image">
             <div class="card-image-placeholder">
-              <img class="card-image" src="homemedicare.png" alt="Medicare Shopping Experience" onerror="this.style.display='none'">
+              <picture>
+                <source srcset="homemedicare.avif" type="image/avif">
+                <img src="homemedicare.png" alt="Medicare Shopping Experience" loading="lazy" onerror="this.style.display='none'">
+              </picture>
             </div>
           </div>
           <div class="card-body">
@@ -1421,7 +1576,7 @@ footer {
   <div class="about-banner" id="about">
     <div class="about-banner-inner fi">
       <!-- Replace with your actual illustration/banner image -->
-      <div class="about-banner-placeholder"><img class="about-photo" src="about.png" alt="About Jeff Barr" onerror="this.style.display='none'"></div>
+      <div class="about-banner-placeholder"><picture><source srcset="about.avif" type="image/avif"><img class="about-photo" src="about.png" alt="About Jeff Barr" loading="lazy" onerror="this.style.display='none'"></picture></div>
     </div>
   </div>
 
@@ -1454,34 +1609,34 @@ footer {
         <p class="logos-label">Worked With</p>
         <div class="logos-carousel">
           <div class="logos-track">
-            <div class="logo-slide"><img src="workedwithlogos/styleseat.png" alt="StyleSeat"></div>
-            <div class="logo-slide"><img src="workedwithlogos/healthpocket.png" alt="HealthPocket"></div>
-            <div class="logo-slide"><img src="workedwithlogos/healthinsurancecom.png" alt="HealthInsurance.com"></div>
-            <div class="logo-slide"><img src="workedwithlogos/allmusic.png" alt="AllMusic"></div>
-            <div class="logo-slide logo-slide--allmovie"><img src="workedwithlogos/allmovie.png" alt="AllMovie"></div>
-            <div class="logo-slide logo-slide--ahi"><img src="workedwithlogos/ahi.png" alt="AHI"></div>
-            <div class="logo-slide logo-slide--rovi"><img src="workedwithlogos/rovi.png" alt="Rovi"></div>
-            <div class="logo-slide"><img src="workedwithlogos/divx.png" alt="DivX"></div>
-            <div class="logo-slide"><img src="workedwithlogos/ehealth.png" alt="eHealth"></div>
-            <div class="logo-slide"><img src="workedwithlogos/mcafee.png" alt="McAfee"></div>
-            <div class="logo-slide logo-slide--gore"><img src="workedwithlogos/gore.png" alt="W. L. Gore"></div>
-            <div class="logo-slide"><img src="workedwithlogos/nasa.png" alt="NASA"></div>
-            <div class="logo-slide"><img src="workedwithlogos/satmetrix.png" alt="Satmetrix"></div>
-            <div class="logo-slide"><img src="workedwithlogos/worldbank.png" alt="World Bank"></div>
-            <div class="logo-slide"><img src="workedwithlogos/styleseat.png" alt="StyleSeat"></div>
-            <div class="logo-slide"><img src="workedwithlogos/healthpocket.png" alt="HealthPocket"></div>
-            <div class="logo-slide"><img src="workedwithlogos/healthinsurancecom.png" alt="HealthInsurance.com"></div>
-            <div class="logo-slide"><img src="workedwithlogos/allmusic.png" alt="AllMusic"></div>
-            <div class="logo-slide logo-slide--allmovie"><img src="workedwithlogos/allmovie.png" alt="AllMovie"></div>
-            <div class="logo-slide logo-slide--ahi"><img src="workedwithlogos/ahi.png" alt="AHI"></div>
-            <div class="logo-slide logo-slide--rovi"><img src="workedwithlogos/rovi.png" alt="Rovi"></div>
-            <div class="logo-slide"><img src="workedwithlogos/divx.png" alt="DivX"></div>
-            <div class="logo-slide"><img src="workedwithlogos/ehealth.png" alt="eHealth"></div>
-            <div class="logo-slide"><img src="workedwithlogos/mcafee.png" alt="McAfee"></div>
-            <div class="logo-slide logo-slide--gore"><img src="workedwithlogos/gore.png" alt="W. L. Gore"></div>
-            <div class="logo-slide"><img src="workedwithlogos/nasa.png" alt="NASA"></div>
-            <div class="logo-slide"><img src="workedwithlogos/satmetrix.png" alt="Satmetrix"></div>
-            <div class="logo-slide"><img src="workedwithlogos/worldbank.png" alt="World Bank"></div>
+            <div class="logo-slide"><img src="workedwithlogos/styleseat.png" alt="StyleSeat" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/healthpocket.png" alt="HealthPocket" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/healthinsurancecom.png" alt="HealthInsurance.com" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/allmusic.png" alt="AllMusic" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--allmovie"><img src="workedwithlogos/allmovie.png" alt="AllMovie" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--ahi"><img src="workedwithlogos/ahi.png" alt="AHI" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--rovi"><img src="workedwithlogos/rovi.png" alt="Rovi" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/divx.png" alt="DivX" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/ehealth.png" alt="eHealth" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/mcafee.png" alt="McAfee" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--gore"><img src="workedwithlogos/gore.png" alt="W. L. Gore" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/nasa.png" alt="NASA" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/satmetrix.png" alt="Satmetrix" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/worldbank.png" alt="World Bank" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/styleseat.png" alt="StyleSeat" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/healthpocket.png" alt="HealthPocket" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/healthinsurancecom.png" alt="HealthInsurance.com" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/allmusic.png" alt="AllMusic" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--allmovie"><img src="workedwithlogos/allmovie.png" alt="AllMovie" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--ahi"><img src="workedwithlogos/ahi.png" alt="AHI" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--rovi"><img src="workedwithlogos/rovi.png" alt="Rovi" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/divx.png" alt="DivX" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/ehealth.png" alt="eHealth" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/mcafee.png" alt="McAfee" loading="lazy" decoding="async"></div>
+            <div class="logo-slide logo-slide--gore"><img src="workedwithlogos/gore.png" alt="W. L. Gore" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/nasa.png" alt="NASA" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/satmetrix.png" alt="Satmetrix" loading="lazy" decoding="async"></div>
+            <div class="logo-slide"><img src="workedwithlogos/worldbank.png" alt="World Bank" loading="lazy" decoding="async"></div>
           </div>
         </div>
       </div>
@@ -1585,10 +1740,10 @@ footer {
   <div class="case-body">
    <div class="case-body-inner">
     <div class="case-meta-row">
-      <div class="case-meta-cell"><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Platform</div><div class="case-meta-val">Web & Mobile</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Launched</div><div class="case-meta-val">June 2024</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering, Research</div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/User.svg" alt=""><div><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Building.svg" alt=""><div><div class="case-meta-label">Company</div><div class="case-meta-val">StyleSeat</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
     <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
@@ -1613,7 +1768,14 @@ footer {
         <div class="ps"><span class="ps-num">05</span><div><h4>Beta Research and Validation</h4><p>Before full launch, we ran a structured beta with real pros. Key findings: 70% reported fewer cancellations, 62% saw fewer no-shows, and 76% rated their overall experience Above Average or Excellent. I used this feedback to refine the onboarding flow, policy language, and the checkout experience before going wide.</p></div></div>
       </div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="solution-gallery-wrap gallery-reveal">
+      <div class="solution-gallery">
+        <img src="finalclientdepo1.webp" alt="Client booking screen showing deposit required for an appointment" loading="lazy">
+        <img src="finalclientdepo2.webp" alt="Client appointment detail screen with deposit paid status" loading="lazy">
+        <img src="finalclientdepo3.webp" alt="Client appointment cost breakdown with deposit applied" loading="lazy">
+        <img src="finalprodepo.webp" alt="Pro-side appointment view showing deposit paid and amount due" loading="lazy">
+      </div>
+    </div>
     <div class="cs">
       <div class="cs-label">Solution</div>
       <h3>A flexible, two-sided deposit system that worked for every scenario.</h3>
@@ -1625,15 +1787,29 @@ footer {
     <div class="cs">
       <div class="cs-label">Impact</div>
       <h3>Results the business felt immediately.</h3>
-      <div class="quote"><p>"This is the best thing that ever happened to StyleSeat pro artists. Since the grand release I sleep in peace. Especially for new clients."</p><span class="quote-attr">Renata Hall, StyleSeat Pro</span></div>
-      <div class="quote"><p>"My cancellation rate dropped dramatically. They had to pay that deposit and were like, I've already given her part of my money. Let me keep this appointment."</p><span class="quote-attr">Jimelle Simms, Hair Pro</span></div>
-      <div class="outcomes-grid">
+      <div class="outcomes-grid gallery-reveal">
         <div class="oc"><span class="oc-num">30%</span><span class="oc-label">Pro adoption within one month of launch</span></div>
         <div class="oc"><span class="oc-num">82%</span><span class="oc-label">More likely appointments complete with a deposit</span></div>
         <div class="oc"><span class="oc-num">$200K</span><span class="oc-label">In deposits processed weekly</span></div>
         <div class="oc"><span class="oc-num">70%</span><span class="oc-label">Of beta pros reported fewer cancellations</span></div>
         <div class="oc"><span class="oc-num">62%</span><span class="oc-label">Of beta pros saw fewer no-shows</span></div>
         <div class="oc"><span class="oc-num">85%</span><span class="oc-label">Of beta pros didn't need to contact support</span></div>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote-block">
+          <div class="quote"><p>"My cancellation rate dropped dramatically. They had to pay that deposit and were like, I've already given her part of my money. Let me keep this appointment."</p></div>
+          <div class="quote-person">
+            <img class="quote-avatar" src="depositpro1.png" alt="Jimelle">
+            <span class="quote-attr">Jimelle, StyleSeat Pro</span>
+          </div>
+        </div>
+        <div class="quote-block">
+          <div class="quote"><p>"This is the best thing that ever happened to StyleSeat pro artists. Since the grand release I sleep in peace. Especially for new clients."</p></div>
+          <div class="quote-person">
+            <img class="quote-avatar" src="depositpro2.png" alt="Renata">
+            <span class="quote-attr">Renata, StyleSeat Pro</span>
+          </div>
+        </div>
       </div>
     </div>
    </div>
@@ -1669,7 +1845,7 @@ footer {
     <img class="case-hero-blue" src="blue.svg" alt="" />
     <div class="case-hero-inner">
       <button class="back-btn" onclick="showHome('work')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.9999 8C13.9999 8.13261 13.9472 8.25979 13.8535 8.35356C13.7597 8.44733 13.6325 8.5 13.4999 8.5H3.70678L7.35366 12.1463C7.40011 12.1927 7.43696 12.2479 7.4621 12.3086C7.48724 12.3693 7.50018 12.4343 7.50018 12.5C7.50018 12.5657 7.48724 12.6308 7.4621 12.6915C7.43696 12.7521 7.40011 12.8073 7.35366 12.8538C7.3072 12.9002 7.25205 12.9371 7.19135 12.9622C7.13066 12.9873 7.0656 13.0003 6.99991 13.0003C6.93421 13.0003 6.86915 12.9873 6.80846 12.9622C6.74776 12.9371 6.69261 12.9002 6.64615 12.8538L2.14615 8.35375C2.09967 8.30732 2.06279 8.25217 2.03763 8.19147C2.01246 8.13077 1.99951 8.06571 1.99951 8C1.99951 7.9343 2.01246 7.86923 2.03763 7.80853C2.06279 7.74783 2.09967 7.69269 2.14615 7.64625L6.64615 3.14625C6.73997 3.05243 6.86722 2.99973 6.99991 2.99973C7.13259 2.99973 7.25984 3.05243 7.35366 3.14625C7.44748 3.24007 7.50018 3.36732 7.50018 3.5C7.50018 3.63269 7.44748 3.75993 7.35366 3.85375L3.70678 7.5H13.4999C13.6325 7.5 13.7597 7.55268 13.8535 7.64645C13.9472 7.74022 13.9999 7.86739 13.9999 8Z" fill="currentColor"/></svg> All Work</button>
-      <h1 class="case-hero-title">AI Social Post Builder</h1>
+      <h1 class="case-hero-title">AI Social<br>Post Builder</h1>
       <p class="case-hero-sub">The first AI content creation tool in the beauty industry. No competitors, no playbook. I designed the entire experience from scratch, including the AI prompting strategy, topic architecture, and brand personalization system.</p>
     </div>
     <img class="case-hero-fade" src="graygrad.svg" alt="" />
@@ -1677,10 +1853,10 @@ footer {
   <div class="case-body">
    <div class="case-body-inner">
     <div class="case-meta-row">
-      <div class="case-meta-cell"><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Platform</div><div class="case-meta-val">Web & Mobile</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Type</div><div class="case-meta-val">0 to 1 Feature</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering, Marketing</div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/User.svg" alt=""><div><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Building.svg" alt=""><div><div class="case-meta-label">Company</div><div class="case-meta-val">StyleSeat</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
     <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
@@ -1706,7 +1882,14 @@ footer {
         <div class="ps"><span class="ps-num">05</span><div><h4>Edit, Download, and Share Flow</h4><p>Designed the full downstream experience: pros could review the generated post, make edits to the copy, download the image, and share directly to Instagram or save for later. The editing step was intentional. It gave pros ownership over the final result and reduced the friction of trusting AI output they hadn't written themselves.</p></div></div>
       </div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="solution-gallery-wrap gallery-reveal">
+      <div class="solution-gallery">
+        <img src="finalsocial1.webp" alt="Social Post Builder topic category selection screen" loading="lazy">
+        <img src="finalsocial2.webp" alt="Social Post Builder brand personalization screen" loading="lazy">
+        <img src="finalsocial3.webp" alt="Social Post Builder generated post preview" loading="lazy">
+        <img src="finalsocial4.webp" alt="Social Post Builder edit and share screen" loading="lazy">
+      </div>
+    </div>
     <div class="cs">
       <div class="cs-label">Solution</div>
       <h3>A structured AI content tool with brand personalization built in.</h3>
@@ -1718,7 +1901,7 @@ footer {
     <div class="cs">
       <div class="cs-label">Impact</div>
       <h3>Adoption and a strong quality signal.</h3>
-      <div class="outcomes-grid">
+      <div class="outcomes-grid gallery-reveal">
         <div class="oc"><span class="oc-num">10K+</span><span class="oc-label">Posts generated since launch</span></div>
         <div class="oc"><span class="oc-num">4K+</span><span class="oc-label">Unique providers who used the tool</span></div>
         <div class="oc"><span class="oc-num">93.8%</span><span class="oc-label">AI content generation success rate</span></div>
@@ -1760,7 +1943,7 @@ footer {
     <img class="case-hero-blue" src="blue.svg" alt="" />
     <div class="case-hero-inner">
       <button class="back-btn" onclick="showHome('work')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.9999 8C13.9999 8.13261 13.9472 8.25979 13.8535 8.35356C13.7597 8.44733 13.6325 8.5 13.4999 8.5H3.70678L7.35366 12.1463C7.40011 12.1927 7.43696 12.2479 7.4621 12.3086C7.48724 12.3693 7.50018 12.4343 7.50018 12.5C7.50018 12.5657 7.48724 12.6308 7.4621 12.6915C7.43696 12.7521 7.40011 12.8073 7.35366 12.8538C7.3072 12.9002 7.25205 12.9371 7.19135 12.9622C7.13066 12.9873 7.0656 13.0003 6.99991 13.0003C6.93421 13.0003 6.86915 12.9873 6.80846 12.9622C6.74776 12.9371 6.69261 12.9002 6.64615 12.8538L2.14615 8.35375C2.09967 8.30732 2.06279 8.25217 2.03763 8.19147C2.01246 8.13077 1.99951 8.06571 1.99951 8C1.99951 7.9343 2.01246 7.86923 2.03763 7.80853C2.06279 7.74783 2.09967 7.69269 2.14615 7.64625L6.64615 3.14625C6.73997 3.05243 6.86722 2.99973 6.99991 2.99973C7.13259 2.99973 7.25984 3.05243 7.35366 3.14625C7.44748 3.24007 7.50018 3.36732 7.50018 3.5C7.50018 3.63269 7.44748 3.75993 7.35366 3.85375L3.70678 7.5H13.4999C13.6325 7.5 13.7597 7.55268 13.8535 7.64645C13.9472 7.74022 13.9999 7.86739 13.9999 8Z" fill="currentColor"/></svg> All Work</button>
-      <h1 class="case-hero-title">Custom Websites</h1>
+      <h1 class="case-hero-title">Custom<br>Websites</h1>
       <p class="case-hero-sub">A top-requested feature that pros couldn't afford or build on their own. I designed the entire product from zero: three professional templates, a no-code builder, and a hero image system, all built to get a pro live in minutes, not hours.</p>
     </div>
     <img class="case-hero-fade" src="graygrad.svg" alt="" />
@@ -1768,10 +1951,10 @@ footer {
   <div class="case-body">
    <div class="case-body-inner">
     <div class="case-meta-row">
-      <div class="case-meta-cell"><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Platform</div><div class="case-meta-val">Web & Mobile</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Launched</div><div class="case-meta-val">August 2025</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering, Marketing</div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/User.svg" alt=""><div><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Building.svg" alt=""><div><div class="case-meta-label">Company</div><div class="case-meta-val">StyleSeat</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
     <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
@@ -1796,7 +1979,14 @@ footer {
         <div class="ps"><span class="ps-num">04</span><div><h4>Paywall and Monetization Design</h4><p>After an extended free trial period, Custom Websites moved to a $10/month add-on to a pro's existing StyleSeat subscription. I designed the paywall experience to feel like a natural next step rather than an interruption. Pros had already seen the value of their site during the trial period, so the conversion moment was designed around reinforcing that value rather than creating urgency.</p></div></div>
       </div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="solution-gallery-wrap gallery-reveal">
+      <div class="solution-gallery">
+        <img src="finalcustweb1.webp" alt="Custom Websites template selection screen" loading="lazy">
+        <img src="finalcustweb2.webp" alt="Custom Websites builder brand customization screen" loading="lazy">
+        <img src="finalcustweb3.webp" alt="Custom Websites hero image selection screen" loading="lazy">
+        <img src="finalcustweb4.webp" alt="Custom Websites published site preview" loading="lazy">
+      </div>
+    </div>
     <div class="cs">
       <div class="cs-label">Solution</div>
       <h3>Three professional templates. A six-step builder. Live in minutes.</h3>
@@ -1808,7 +1998,7 @@ footer {
     <div class="cs">
       <div class="cs-label">Impact</div>
       <h3>Strong adoption and a new revenue line for the business.</h3>
-      <div class="outcomes-grid">
+      <div class="outcomes-grid gallery-reveal">
         <div class="oc"><span class="oc-num">1,725</span><span class="oc-label">Active custom sites at time of performance check</span></div>
         <div class="oc"><span class="oc-num">$16K</span><span class="oc-label">Monthly recurring revenue generated</span></div>
         <div class="oc"><span class="oc-num">12%</span><span class="oc-label">Pro adoption, exceeding the 11% beta target</span></div>
@@ -1858,10 +2048,10 @@ footer {
   <div class="case-body">
    <div class="case-body-inner">
     <div class="case-meta-row">
-      <div class="case-meta-cell"><div class="case-meta-label">Role</div><div class="case-meta-val">Lead UX/UI Designer</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Company</div><div class="case-meta-val">TogetherHealth / Benefytt</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Timeline</div><div class="case-meta-val">Jan – Oct 2021</div></div>
-      <div class="case-meta-cell"><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering, Research, Legal</div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/User.svg" alt=""><div><div class="case-meta-label">Role</div><div class="case-meta-val">Lead Product Designer</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Building.svg" alt=""><div><div class="case-meta-label">Company</div><div class="case-meta-val">Health&shy;Insurance.com</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web</div></div></div>
+      <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Eng., Research, Legal</div></div></div>
     </div>
     <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
@@ -1899,7 +2089,7 @@ footer {
     <div class="cs">
       <div class="cs-label">Impact</div>
       <h3>Launched on time. Outperformed prior year.</h3>
-      <div class="outcomes-grid">
+      <div class="outcomes-grid gallery-reveal">
         <div class="oc"><span class="oc-num">90%</span><span class="oc-label">Of users preferred being guided to a plan vs. browsing</span></div>
         <div class="oc"><span class="oc-num">5</span><span class="oc-label">User personas developed through weekly research sprints</span></div>
         <div class="oc"><span class="oc-num">↑</span><span class="oc-label">Site outperformed prior year open enrollment numbers at launch</span></div>
@@ -1989,7 +2179,7 @@ function observeFI() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
   }, { threshold: 0.07 });
-  document.querySelectorAll('.fi').forEach(el => {
+  document.querySelectorAll('.fi, .gallery-reveal').forEach(el => {
     el.classList.remove('vis');
     obs.observe(el);
   });

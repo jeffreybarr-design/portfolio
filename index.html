@@ -63,6 +63,8 @@
   --sp-20: 20px; --sp-24: 24px; --sp-32: 32px; --sp-40: 40px;
   --sp-48: 48px; --sp-56: 56px; --sp-64: 64px; --sp-72: 72px;
   --sp-80: 80px; --sp-96: 96px; --sp-120: 120px;
+  --section-gap: 40px;
+  --section-divider-gap: 200px;
 
   /* Border radius */
   --r-2: 2px; --r-4: 4px; --r-8: 8px; --r-16: 16px;
@@ -174,12 +176,15 @@ nav {
   justify-content: space-between;
   align-items: center;
   background: transparent;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s ease;
 }
 nav.scrolled {
   background: rgba(19,23,28,0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+nav.nav-hidden {
+  transform: translateY(-100%);
 }
 .nav-logo {
   width: 56px;
@@ -521,12 +526,20 @@ nav.scrolled {
 /* ═══════════════════════════════════════
    ABOUT BANNER (illustration strip)
    ═══════════════════════════════════════ */
+.about-heading {
+  background: var(--bg);
+  padding: 96px var(--gutter) 0;
+  scroll-margin-top: 88px;
+}
+.about-heading-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
 .about-banner {
   width: 100%;
   background: var(--bg);
-  padding: 80px 0 40px;
+  margin-top: var(--section-gap);
   overflow: hidden;
-  scroll-margin-top: 88px;
 }
 .about-banner-inner {
   max-width: var(--max-width);
@@ -592,7 +605,7 @@ nav.scrolled {
   pointer-events: none;
 }
 .about-section {
-  padding: 80px 0 0;
+  padding: var(--section-gap) 0 0;
 }
 .about-inner {
   position: relative;
@@ -618,7 +631,7 @@ nav.scrolled {
   line-height: 1.1;
   letter-spacing: -2px;
   color: #E9ECF0;
-  margin: 0 auto var(--sp-48);
+  margin: 0 auto;
   max-width: 720px;
   text-align: center;
 }
@@ -1003,7 +1016,9 @@ footer {
   max-width: 1280px;
   margin: 0 auto;
 }
-.cs { max-width: 720px; margin: 0 auto var(--sp-72); }
+.cs { max-width: 720px; margin: var(--section-divider-gap) auto 0; }
+.cs:not(:has(.cs-label)) { margin-top: var(--section-gap); }
+.case-meta-row + .cs { margin-top: 104px; }
 .cs-label {
   font-family: var(--font-body);
   font-weight: 700;
@@ -1048,13 +1063,46 @@ footer {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin: var(--sp-48) auto;
+  margin: var(--section-gap) auto 0;
 }
 .case-img svg { opacity: 0.4; }
+
+.competitor-card {
+  position: relative;
+  background: rgba(207, 216, 228, 0.3);
+  border-radius: var(--r-24);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: var(--section-gap) auto 0;
+}
+.competitor-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.competitor-pill {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2E353F;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  z-index: 2;
+}
 
 .solution-gallery-wrap {
   position: relative;
   overflow: hidden;
+  margin-top: var(--section-gap);
 }
 .solution-gallery {
   display: flex;
@@ -1062,7 +1110,7 @@ footer {
   align-items: flex-start;
   gap: var(--sp-24);
   max-width: 1280px;
-  margin: var(--sp-48) auto;
+  margin: 0 auto;
 }
 .solution-gallery img {
   width: 100%;
@@ -1110,6 +1158,80 @@ footer {
   color: #4C5564;
   line-height: 1.7;
   margin: 0;
+}
+
+/* Key Design Decisions — 2x2 grid of image/content blocks */
+.decisions-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--sp-32);
+  row-gap: var(--section-gap);
+  margin-top: var(--section-gap);
+}
+/* Odd item count — let the trailing block span both columns instead of leaving a gap */
+.decision-block:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+.decision-block:last-child:nth-child(odd) .decision-visual {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.decision-block:last-child:nth-child(odd) .decision-caption {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.decision-visual {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-24);
+  background: #13171C;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.decision-glow-red,
+.decision-glow-blue {
+  display: block;
+  position: absolute;
+  bottom: -20%;
+  height: auto;
+  pointer-events: none;
+}
+.decision-glow-red { right: -10%; width: 70%; }
+.decision-glow-blue { left: -10%; width: 60%; }
+.decision-img-placeholder {
+  position: relative;
+  z-index: 1;
+  width: 62%;
+  aspect-ratio: 4/3;
+  background: rgba(255,255,255,0.06);
+  border: 1px dashed rgba(255,255,255,0.3);
+  border-radius: var(--r-16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.decision-caption {
+  margin-top: var(--sp-16);
+  text-align: left;
+}
+.decision-caption h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: var(--sp-16);
+}
+.decision-caption p {
+  font-size: 16px;
+  color: #4C5564;
+  line-height: 1.7;
 }
 
 .quotes-grid {
@@ -1320,14 +1442,15 @@ footer {
    RESPONSIVE — Mobile (<768px)
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  :root { --gutter: var(--gutter-sm); }
+  :root { --gutter: var(--gutter-sm); --section-gap: 24px; --section-divider-gap: 104px; }
 
   .solution-gallery img { max-width: 180px; scroll-snap-align: center; }
   .solution-gallery { padding-left: calc(50% - 90px); padding-right: calc(50% - 90px); }
 
-  .about-banner {
-    padding: 64px 0 40px;
-  }
+  .decisions-stack { grid-template-columns: 1fr; }
+  .decision-caption h4 { font-size: 22px; }
+  .decision-caption p { font-size: 15px; }
+
   .about-banner-placeholder,
   .about-banner-img {
     aspect-ratio: 1/1;
@@ -1393,7 +1516,6 @@ footer {
   .about-eyebrow { font-size: 16px; }
 
   /* About */
-  .about-section { padding-top: 40px; }
   .about-headline { font-size: 36px; letter-spacing: -1px; }
   .about-text p {
     font-size: 16px;
@@ -1435,6 +1557,8 @@ footer {
   .outcomes-grid { grid-template-columns: 1fr; }
   .quotes-grid { grid-template-columns: 1fr; }
   .next-bar { padding: var(--sp-24) var(--gutter); }
+  .competitor-card { grid-template-columns: 1fr 1fr; padding: 16px; }
+  .competitor-pill { font-size: 10px; }
 
   /* Typography — mobile scale from tokens */
   .case-hero-title { font-size: 64px; text-shadow: 2px 0px 0px var(--glitch-cyan), -2px 0px 0px var(--glitch-red); }
@@ -1573,7 +1697,14 @@ footer {
   </section>
 
   <!-- ABOUT BANNER (illustration strip placeholder) -->
-  <div class="about-banner" id="about">
+  <div class="about-heading" id="about">
+    <div class="about-heading-inner">
+      <p class="about-eyebrow fi">About</p>
+      <h3 class="about-headline fi">Complexity simplified.<br>Outcomes delivered.</h3>
+    </div>
+  </div>
+
+  <div class="about-banner">
     <div class="about-banner-inner fi">
       <!-- Replace with your actual illustration/banner image -->
       <div class="about-banner-placeholder"><picture><source srcset="about.avif" type="image/avif"><img class="about-photo" src="about.png" alt="About Jeff Barr" loading="lazy" onerror="this.style.display='none'"></picture></div>
@@ -1588,8 +1719,6 @@ footer {
   <!-- ABOUT -->
   <section class="about-section">
     <div class="about-inner">
-      <p class="about-eyebrow fi">About</p>
-      <h3 class="about-headline fi">Complexity simplified.<br>Outcomes delivered.</h3>
       <div class="fi">
         <div class="about-text">
           <p>Funny story. It all started at the ripe age of 5. I found a permanent marker and saw opportunity, an empty canvas on the back of the school bus seat. That's where the sketching and design began, but ended quickly with a slew of punishment. Well it's not that funny but ever since, I had the urge to create.</p>
@@ -1745,10 +1874,18 @@ footer {
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
       <div class="cs-label">Background</div>
       <h3>No-shows were costing pros real money with no recourse.</h3>
+    </div>
+    <div class="competitor-card">
+      <span class="competitor-pill">Behind the Competition</span>
+      <img src="boosky.webp" alt="Booksy deposit feature screen" loading="lazy">
+      <img src="vagaro.webp" alt="Vagaro deposits and no-show protection blog post" loading="lazy">
+      <img src="glossg.webp" alt="GlossGenius deposit collection feature screen" loading="lazy">
+      <img src="acuity.webp" alt="Acuity Scheduling deposits and prepayments feature screen" loading="lazy">
+    </div>
+    <div class="cs">
       <p>Independent beauty professionals on StyleSeat run tight schedules where every appointment slot has real financial value. A no-show doesn't just mean lost revenue. It means lost time that can't be recovered, often with no notice and no way to hold the client accountable.</p>
       <p>Deposits were the standard protection offline, but StyleSeat had nothing in place digitally. Building this meant designing an experience that worked for both sides of the marketplace: pros needed control and confidence, clients needed transparency and trust.</p>
     </div>
@@ -1760,13 +1897,42 @@ footer {
     <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>The hard problems I had to solve.</h3>
-      <div class="process-list">
-        <div class="ps"><span class="ps-num">01</span><div><h4>Deposit Customization Settings</h4><p>Designed a settings experience giving pros full control over how deposits worked for their business: how much to charge, which services required a deposit, and who had to pay one. Options included requiring deposits from all clients, new clients only, or exempting specific trusted clients from the VIP list.</p></div></div>
-        <div class="ps"><span class="ps-num">02</span><div><h4>VIP Client Exemption List</h4><p>Pros with long-term trusted clients needed a way to exempt them from deposit requirements without losing the protection for everyone else. I designed an experience where pros could browse their full client list and designate specific clients as VIPs, giving those clients a deposit-free booking experience while keeping the protection in place for new and unknown clients.</p></div></div>
-        <div class="ps"><span class="ps-num">03</span><div><h4>Cancellation Edge Cases</h4><p>This was the most complex design challenge on the feature. The refund logic had to account for who cancelled, when they cancelled, and what the pro's policy was, which resulted in very different outcomes. A client who cancels within the window loses the deposit. A pro who cancels owes a full refund. A New Client Request that the pro declines needed its own logic entirely, since the pro never accepted the booking in the first place. I mapped and designed every permutation of this to ensure the experience was clear, fair, and consistent for both parties.</p></div></div>
-        <div class="ps"><span class="ps-num">04</span><div><h4>Client-Facing Transparency</h4><p>Deposits can feel like a red flag to clients who aren't expecting them. I designed the client booking experience to surface the deposit requirement early, with a clear breakdown of what was due at booking versus at the appointment. This information carried through to all client communications including confirmation emails, reminders, and the appointment detail screen, so there were no surprises.</p></div></div>
-        <div class="ps"><span class="ps-num">05</span><div><h4>Beta Research and Validation</h4><p>Before full launch, we ran a structured beta with real pros. Key findings: 70% reported fewer cancellations, 62% saw fewer no-shows, and 76% rated their overall experience Above Average or Excellent. I used this feedback to refine the onboarding flow, policy language, and the checkout experience before going wide.</p></div></div>
+    </div>
+        <div class="decisions-stack">
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>1. Deposit Customization Settings</h4><p>Designed a settings experience giving pros full control over how deposits worked for their business: how much to charge, which services required a deposit, and who had to pay one. Options included requiring deposits from all clients, new clients only, or exempting specific trusted clients from the VIP list.</p></div>
       </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>2. VIP Client Exemption List</h4><p>Pros with long-term trusted clients needed a way to exempt them from deposit requirements without losing the protection for everyone else. I designed an experience where pros could browse their full client list and designate specific clients as VIPs, giving those clients a deposit-free booking experience while keeping the protection in place for new and unknown clients.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>3. Cancellation Edge Cases</h4><p>This was the most complex design challenge on the feature. The refund logic had to account for who cancelled, when they cancelled, and what the pro's policy was, which resulted in very different outcomes. A client who cancels within the window loses the deposit. A pro who cancels owes a full refund. A New Client Request that the pro declines needed its own logic entirely, since the pro never accepted the booking in the first place. I mapped and designed every permutation of this to ensure the experience was clear, fair, and consistent for both parties.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>4. Client-Facing Transparency</h4><p>Deposits can feel like a red flag to clients who aren't expecting them. I designed the client booking experience to surface the deposit requirement early, with a clear breakdown of what was due at booking versus at the appointment. This information carried through to all client communications including confirmation emails, reminders, and the appointment detail screen, so there were no surprises.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>5. Beta Research and Validation</h4><p>Before full launch, we ran a structured beta with real pros. Key findings: 70% reported fewer cancellations, 62% saw fewer no-shows, and 76% rated their overall experience Above Average or Excellent. I used this feedback to refine the onboarding flow, policy language, and the checkout experience before going wide.</p></div>
+      </div>
+    </div>
+    <div class="cs">
+      <div class="cs-label">Solution</div>
+      <h3>A flexible, two-sided deposit system that worked for every scenario.</h3>
     </div>
     <div class="solution-gallery-wrap gallery-reveal">
       <div class="solution-gallery">
@@ -1777,8 +1943,6 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <div class="cs-label">Solution</div>
-      <h3>A flexible, two-sided deposit system that worked for every scenario.</h3>
       <p>The final product was a fully customizable deposit system that pros could configure to fit their specific business. From a dedicated settings screen, pros could set a deposit amount, choose which services required one, and define who had to pay: all clients, new clients only, or everyone except their curated VIP list.</p>
       <p>The VIP list became its own mini-feature: a searchable view of the pro's full client history where they could designate trusted regulars as exempt from the deposit requirement without manually managing exceptions every time.</p>
       <p>On the client side, the deposit was surfaced clearly and early in the booking flow with a plain-language explanation and a breakdown of what was due at booking versus at the appointment. Every client communication, including confirmation, reminder, and appointment detail, reinforced this so there were no surprises at checkout.</p>
@@ -1858,10 +2022,18 @@ footer {
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
       <div class="cs-label">Background</div>
       <h3>No playbook, no competitors, no precedent.</h3>
+    </div>
+    <div class="competitor-card">
+      <span class="competitor-pill">Before: Static Templates</span>
+      <img src="oldsoc1.webp" alt="Old static 'Book Now' social post template" loading="lazy">
+      <img src="oldsoc2.webp" alt="Old static 'Now taking appointments' social post template" loading="lazy">
+      <img src="oldsoc3.webp" alt="Old static 'You can now book me on StyleSeat' social post template" loading="lazy">
+      <img src="oldsoc4.webp" alt="Old static 'Text to book an appointment' social post template" loading="lazy">
+    </div>
+    <div class="cs">
       <p>When this project started, no one in the beauty industry had built an AI social media content tool for independent professionals. There was nothing to reference, nothing to benchmark against. This was a true zero-to-one problem.</p>
       <p>Pros knew social media was important for their business but consistently said it was one of the most stressful parts of running their practice. The issue wasn't motivation. It was the blank canvas. They didn't know what to post, how to make it look professional, or how to keep it consistent with their brand.</p>
     </div>
@@ -1874,13 +2046,42 @@ footer {
     <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>How I solved it.</h3>
-      <div class="process-list">
-        <div class="ps"><span class="ps-num">01</span><div><h4>Topic Category Architecture</h4><p>Rather than giving pros an open text field to enter their own prompts, I designed a curated set of topic categories as the primary input. Categories like client reviews, open appointments, seasonal promotions, and service spotlights gave the AI enough context to produce relevant, on-topic content while keeping the experience simple for pros who weren't content creators. I worked closely with the PM and marketing team on category selection and the prompt language behind each one.</p></div></div>
-        <div class="ps"><span class="ps-num">02</span><div><h4>AI Prompt Workshopping</h4><p>I ran structured sessions testing multiple AI models and prompting strategies to find the combination that produced the best results across different topic types and business styles. This wasn't just a technical exercise. The output quality directly shaped how the product was designed. Seeing what the AI could and couldn't do reliably informed every decision about what to put in the UI and what to keep out.</p></div></div>
-        <div class="ps"><span class="ps-num">03</span><div><h4>The MVP Scope Decision</h4><p>Early on we considered letting pros write their own custom AI prompts to generate posts outside our topic system. We pulled this from MVP for two reasons: quality and brand risk. Without controlled inputs, the outputs could be unpredictable, and a poorly generated post shared from a StyleSeat pro's account reflects on the platform, not just the pro. We shipped topic-based generation first to validate the concept with quality guardrails in place before investing in open-ended prompting.</p></div></div>
-        <div class="ps"><span class="ps-num">04</span><div><h4>Brand Personalization System</h4><p>To solve the "everyone's posts look the same" problem, I designed a brand personalization layer where pros could select their brand colors and choose an overall visual style. This meant the AI output wasn't just different by topic. It reflected each pro's individual aesthetic. A high-contrast editorial style for one stylist, a soft warm tone for another. The posts felt personal, not templated.</p></div></div>
-        <div class="ps"><span class="ps-num">05</span><div><h4>Edit, Download, and Share Flow</h4><p>Designed the full downstream experience: pros could review the generated post, make edits to the copy, download the image, and share directly to Instagram or save for later. The editing step was intentional. It gave pros ownership over the final result and reduced the friction of trusting AI output they hadn't written themselves.</p></div></div>
+    </div>
+        <div class="decisions-stack">
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>1. Topic Category Architecture</h4><p>Rather than giving pros an open text field to enter their own prompts, I designed a curated set of topic categories as the primary input. Categories like client reviews, open appointments, seasonal promotions, and service spotlights gave the AI enough context to produce relevant, on-topic content while keeping the experience simple for pros who weren't content creators. I worked closely with the PM and marketing team on category selection and the prompt language behind each one.</p></div>
       </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>2. AI Prompt Workshopping</h4><p>I ran structured sessions testing multiple AI models and prompting strategies to find the combination that produced the best results across different topic types and business styles. This wasn't just a technical exercise. The output quality directly shaped how the product was designed. Seeing what the AI could and couldn't do reliably informed every decision about what to put in the UI and what to keep out.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>3. The MVP Scope Decision</h4><p>Early on we considered letting pros write their own custom AI prompts to generate posts outside our topic system. We pulled this from MVP for two reasons: quality and brand risk. Without controlled inputs, the outputs could be unpredictable, and a poorly generated post shared from a StyleSeat pro's account reflects on the platform, not just the pro. We shipped topic-based generation first to validate the concept with quality guardrails in place before investing in open-ended prompting.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>4. Brand Personalization System</h4><p>To solve the "everyone's posts look the same" problem, I designed a brand personalization layer where pros could select their brand colors and choose an overall visual style. This meant the AI output wasn't just different by topic. It reflected each pro's individual aesthetic. A high-contrast editorial style for one stylist, a soft warm tone for another. The posts felt personal, not templated.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>5. Edit, Download, and Share Flow</h4><p>Designed the full downstream experience: pros could review the generated post, make edits to the copy, download the image, and share directly to Instagram or save for later. The editing step was intentional. It gave pros ownership over the final result and reduced the friction of trusting AI output they hadn't written themselves.</p></div>
+      </div>
+    </div>
+    <div class="cs">
+      <div class="cs-label">Solution</div>
+      <h3>A structured AI content tool with brand personalization built in.</h3>
     </div>
     <div class="solution-gallery-wrap gallery-reveal">
       <div class="solution-gallery">
@@ -1891,8 +2092,6 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <div class="cs-label">Solution</div>
-      <h3>A structured AI content tool with brand personalization built in.</h3>
       <p>The Social Post Builder launched as a topic-based content generator. Pros chose from a curated set of categories including client reviews, open appointments, seasonal promotions, and service spotlights, and the tool used those inputs along with the pro's profile data to generate a ready-to-share social post.</p>
       <p>Before generating, pros configured their brand profile by selecting their brand colors and choosing an overall visual style. This meant every post felt like it came from that specific business rather than a generic template shared across thousands of providers. A high-contrast editorial look for one stylist, a warm and personal tone for another.</p>
       <p>After generation, pros could review the copy, make edits directly in the tool, preview the finished post, and download or share to Instagram with one tap. The edit step was a deliberate design decision. Giving pros ownership over the final result made the AI output feel like a starting point they controlled, not something they had to trust blindly.</p>
@@ -1956,10 +2155,12 @@ footer {
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web | Android | iOS</div></div></div>
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Engineering</div></div></div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
       <div class="cs-label">Background</div>
       <h3>A top request pros couldn't afford to build themselves.</h3>
+    </div>
+    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="cs">
       <p>Independent beauty professionals consistently asked for a way to have their own website. The problem was that building one was expensive, time-consuming, and required technical skills most pros didn't have. Third-party website builders were an option, but they were disconnected from the StyleSeat booking system and required starting from scratch with no industry-specific templates.</p>
       <p>This feature didn't exist anywhere on the platform before I started working on it. There was no prior version to iterate on. Just a strong signal from pros that it was something they needed.</p>
     </div>
@@ -1972,12 +2173,36 @@ footer {
     <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>How I solved it.</h3>
-      <div class="process-list">
-        <div class="ps"><span class="ps-num">01</span><div><h4>Template Design from Scratch</h4><p>I designed three professional website templates from zero. Each one had to work for a wide range of beauty businesses, from solo nail techs to high-end hair salons, while still feeling distinct enough that pros could choose the one that matched their aesthetic. Templates were built to automatically pull in data from the pro's existing StyleSeat profile, so the site felt personalized from the moment they selected a template.</p></div></div>
-        <div class="ps"><span class="ps-num">02</span><div><h4>Hero Image System</h4><p>The hero image is the most important visual element on any website. I designed a three-option system: pros could use a curated default image we provided, choose from a StyleSeat photo library we built specifically for this feature with high-quality beauty industry photography, or upload their own photo. Building the curated library required sourcing and organizing a collection of quality images that represented the range of beauty professionals on the platform.</p></div></div>
-        <div class="ps"><span class="ps-num">03</span><div><h4>Simple Onboarding Flow</h4><p>The entire setup experience was designed to take minutes, not hours. Pros selected a template, customized their brand colors, chose a hero image, wrote a headline, picked a light or dark theme, and previewed the result before publishing. Six steps. No code, no complexity, no decisions that required technical knowledge. The site was automatically populated with their services, bio, and booking link from their existing StyleSeat profile.</p></div></div>
-        <div class="ps"><span class="ps-num">04</span><div><h4>Paywall and Monetization Design</h4><p>After an extended free trial period, Custom Websites moved to a $10/month add-on to a pro's existing StyleSeat subscription. I designed the paywall experience to feel like a natural next step rather than an interruption. Pros had already seen the value of their site during the trial period, so the conversion moment was designed around reinforcing that value rather than creating urgency.</p></div></div>
+    </div>
+        <div class="decisions-stack">
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>1. Template Design from Scratch</h4><p>I designed three professional website templates from zero. Each one had to work for a wide range of beauty businesses, from solo nail techs to high-end hair salons, while still feeling distinct enough that pros could choose the one that matched their aesthetic. Templates were built to automatically pull in data from the pro's existing StyleSeat profile, so the site felt personalized from the moment they selected a template.</p></div>
       </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>2. Hero Image System</h4><p>The hero image is the most important visual element on any website. I designed a three-option system: pros could use a curated default image we provided, choose from a StyleSeat photo library we built specifically for this feature with high-quality beauty industry photography, or upload their own photo. Building the curated library required sourcing and organizing a collection of quality images that represented the range of beauty professionals on the platform.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>3. Simple Onboarding Flow</h4><p>The entire setup experience was designed to take minutes, not hours. Pros selected a template, customized their brand colors, chose a hero image, wrote a headline, picked a light or dark theme, and previewed the result before publishing. Six steps. No code, no complexity, no decisions that required technical knowledge. The site was automatically populated with their services, bio, and booking link from their existing StyleSeat profile.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>4. Paywall and Monetization Design</h4><p>After an extended free trial period, Custom Websites moved to a $10/month add-on to a pro's existing StyleSeat subscription. I designed the paywall experience to feel like a natural next step rather than an interruption. Pros had already seen the value of their site during the trial period, so the conversion moment was designed around reinforcing that value rather than creating urgency.</p></div>
+      </div>
+    </div>
+    <div class="cs">
+      <div class="cs-label">Solution</div>
+      <h3>Three professional templates. A six-step builder. Live in minutes.</h3>
     </div>
     <div class="solution-gallery-wrap gallery-reveal">
       <div class="solution-gallery">
@@ -1988,8 +2213,6 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <div class="cs-label">Solution</div>
-      <h3>Three professional templates. A six-step builder. Live in minutes.</h3>
       <p>The Custom Websites product launched with three professionally designed templates, each built from scratch to look credible for a range of beauty businesses, from solo practitioners to established salons. Templates automatically pulled in the pro's existing StyleSeat profile data including their services, bio, and booking link, so the site felt personalized from the moment they selected a template.</p>
       <p>The builder experience was designed around a single constraint: get a pro to a live, professional-looking site before they finished their morning coffee. The flow had six steps: select a template, set brand colors, choose a hero image, write a headline, pick a light or dark theme, preview, and publish. No technical knowledge required at any step.</p>
       <p>The hero image system gave pros three options: a curated default image, a StyleSeat photo library we built specifically for this feature with high-quality beauty industry photography, or their own uploaded photo. Building the curated library was itself a design and curation effort, sourcing and organizing images that represented the real range of pros on the platform.</p>
@@ -2041,7 +2264,7 @@ footer {
     <div class="case-hero-inner">
       <button class="back-btn" onclick="showHome('work')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.9999 8C13.9999 8.13261 13.9472 8.25979 13.8535 8.35356C13.7597 8.44733 13.6325 8.5 13.4999 8.5H3.70678L7.35366 12.1463C7.40011 12.1927 7.43696 12.2479 7.4621 12.3086C7.48724 12.3693 7.50018 12.4343 7.50018 12.5C7.50018 12.5657 7.48724 12.6308 7.4621 12.6915C7.43696 12.7521 7.40011 12.8073 7.35366 12.8538C7.3072 12.9002 7.25205 12.9371 7.19135 12.9622C7.13066 12.9873 7.0656 13.0003 6.99991 13.0003C6.93421 13.0003 6.86915 12.9873 6.80846 12.9622C6.74776 12.9371 6.69261 12.9002 6.64615 12.8538L2.14615 8.35375C2.09967 8.30732 2.06279 8.25217 2.03763 8.19147C2.01246 8.13077 1.99951 8.06571 1.99951 8C1.99951 7.9343 2.01246 7.86923 2.03763 7.80853C2.06279 7.74783 2.09967 7.69269 2.14615 7.64625L6.64615 3.14625C6.73997 3.05243 6.86722 2.99973 6.99991 2.99973C7.13259 2.99973 7.25984 3.05243 7.35366 3.14625C7.44748 3.24007 7.50018 3.36732 7.50018 3.5C7.50018 3.63269 7.44748 3.75993 7.35366 3.85375L3.70678 7.5H13.4999C13.6325 7.5 13.7597 7.55268 13.8535 7.64645C13.9472 7.74022 13.9999 7.86739 13.9999 8Z" fill="currentColor"/></svg> All Work</button>
       <h1 class="case-hero-title">Medicare Shopping Experience</h1>
-      <p class="case-hero-sub">Simplifying the hardest parts of Medicare shopping for seniors on mobile. I focused on plan comparison, plan details, search results, and the drug lookup tool, applying deep health insurance domain knowledge to problems that most designers would struggle to even frame correctly.</p>
+      <p class="case-hero-sub">Simplifying the hardest parts of Medicare shopping for seniors on mobile. I focused on plan comparison, plan details, and search results applying deep health insurance domain knowledge to problems that most designers would struggle to even frame correctly.</p>
     </div>
     <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
@@ -2053,34 +2276,63 @@ footer {
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/Devices.svg" alt=""><div><div class="case-meta-label">Platform</div><div class="case-meta-val">Web</div></div></div>
       <div class="case-meta-cell"><img class="case-meta-icon" src="icons/UsersThree.svg" alt=""><div><div class="case-meta-label">Team</div><div class="case-meta-val">PM, Eng., Research, Legal</div></div></div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
       <div class="cs-label">Background</div>
       <h3>Medicare is genuinely hard to shop for. We had to make it feel easy.</h3>
+    </div>
+    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="cs">
       <p>HealthInsurance.com was rebuilding its Medicare shopping experience to coincide with a company rebrand and a move to a modern tech stack. The existing site had usability issues, accessibility failures, and a design that didn't reflect the new brand. The deadline was hard: Medicare open enrollment.</p>
       <p>I came into this project with years of health insurance design experience. I understood the difference between a deductible and an out-of-pocket maximum, how drug formularies worked, and why a senior with a specific prescription might choose one plan over another even if it had a higher premium. That domain knowledge shaped every design decision I made.</p>
     </div>
     <div class="cs">
       <div class="cs-label">My Role</div>
-      <h3>Plan details, comparison, results, and the drug lookup tool.</h3>
-      <p>Within a larger team working on the full experience, I was primarily responsible for the plan detail pages, plan comparison tool, search results and filters, and the prescription drug lookup. I also contributed to the "Help Me Choose" guided recommendation tool, specifically around which questions to ask and how to present the plan summary at the end.</p>
+      <h3>Plan details, comparison, results, and a plan recommendation tool.</h3>
+      <p>Within a larger team working on the full experience, I was primarily responsible for the plan detail pages, plan comparison tool, and search results and filters. I also contributed to the "Help Me Choose" guided recommendation tool, specifically around which questions to ask, prescription drug lookup, and how to present the plan summary at the end.</p>
       <p>These were the hardest parts of the product to design: where information density was highest and the stakes for getting it wrong were greatest.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>Where my work made the biggest difference.</h3>
-      <div class="process-list">
-        <div class="ps"><span class="ps-num">01</span><div><h4>Simplifying the Drug Lookup Tool</h4><p>The original drug lookup was a complex form with too many input fields presented all at once. For a senior who just wanted to know if their prescriptions were covered, it was overwhelming. I redesigned it as a guided sequential experience, one input per screen in a step-by-step flow. Enter a drug name, confirm the dosage, select the form, confirm the frequency. Each step was clear and low-pressure, and the result was a much higher completion rate and less confusion about what information was being asked for.</p></div></div>
-        <div class="ps"><span class="ps-num">02</span><div><h4>Plan Comparison on Mobile</h4><p>Comparing Medicare plans on a mobile screen is a genuinely hard layout problem. Plans have dozens of attributes including premiums, deductibles, copays, drug coverage, and star ratings, and the default side-by-side table layout that works on desktop falls apart on a narrow phone screen. I redesigned the mobile comparison experience by fitting columns more efficiently and stacking the content within each plan so users could scan vertically through one plan at a time while maintaining the ability to compare across plans. The goal was making it easy to spot the key differences without getting lost in the data.</p></div></div>
-        <div class="ps"><span class="ps-num">03</span><div><h4>Plan Results and Filters</h4><p>Designed the plan results page and filtering system to surface the most relevant options quickly without overwhelming users with choices. Given my insurance background, I understood which filters seniors actually used to narrow their decision: premium range, drug coverage, star rating, and provider network, and designed the filter architecture around those priorities rather than exposing every possible attribute.</p></div></div>
-        <div class="ps"><span class="ps-num">04</span><div><h4>Help Me Choose: Questions and Plan Summary</h4><p>I contributed to the "Help Me Choose" guided tool by helping define the question set and the prescription drug selection step specifically. I also designed the plan summary screen shown at the end of the guided flow, a simplified overview that translated the plan's key details into plain language relevant to the answers the user had just given, rather than showing the full plan data set.</p></div></div>
-        <div class="ps"><span class="ps-num">05</span><div><h4>Research Influence: Guided vs. Browse</h4><p>Weekly user research sessions run throughout the project produced a key finding that shaped the entire experience: 90% of users preferred to be guided to a plan recommendation rather than browse on their own. This validated the investment in the "Help Me Choose" tool and influenced how prominently we featured the guided path as the primary entry point to the shopping experience.</p></div></div>
+    </div>
+        <div class="decisions-stack">
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>1. Simplifying the Drug Lookup Tool</h4><p>The original drug lookup was a complex form with too many input fields presented all at once. For a senior who just wanted to know if their prescriptions were covered, it was overwhelming. I redesigned it as a guided sequential experience, one input per screen in a step-by-step flow. Enter a drug name, confirm the dosage, select the form, confirm the frequency. Each step was clear and low-pressure, and the result was a much higher completion rate and less confusion about what information was being asked for.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>2. Plan Comparison on Mobile</h4><p>Comparing Medicare plans on a mobile screen is a genuinely hard layout problem. Plans have dozens of attributes including premiums, deductibles, copays, drug coverage, and star ratings, and the default side-by-side table layout that works on desktop falls apart on a narrow phone screen. I redesigned the mobile comparison experience by fitting columns more efficiently and stacking the content within each plan so users could scan vertically through one plan at a time while maintaining the ability to compare across plans. The goal was making it easy to spot the key differences without getting lost in the data.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>3. Plan Results and Filters</h4><p>Designed the plan results page and filtering system to surface the most relevant options quickly without overwhelming users with choices. Given my insurance background, I understood which filters seniors actually used to narrow their decision: premium range, drug coverage, star rating, and provider network, and designed the filter architecture around those priorities rather than exposing every possible attribute.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>4. Help Me Choose: Questions and Plan Summary</h4><p>I contributed to the "Help Me Choose" guided tool by helping define the question set and the prescription drug selection step specifically. I also designed the plan summary screen shown at the end of the guided flow, a simplified overview that translated the plan's key details into plain language relevant to the answers the user had just given, rather than showing the full plan data set.</p></div>
+      </div>
+      <div class="decision-block">
+        <div class="decision-visual"><img class="decision-glow-red" src="red.svg" alt="">
+            <img class="decision-glow-blue" src="blue.svg" alt="">
+            <div class="decision-img-placeholder">Image Placeholder</div></div>
+        <div class="decision-caption"><h4>5. Research Influence: Guided vs. Browse</h4><p>Weekly user research sessions run throughout the project produced a key finding that shaped the entire experience: 90% of users preferred to be guided to a plan recommendation rather than browse on their own. This validated the investment in the "Help Me Choose" tool and influenced how prominently we featured the guided path as the primary entry point to the shopping experience.</p></div>
       </div>
     </div>
-    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
     <div class="cs">
       <div class="cs-label">Solution</div>
       <h3>Simpler inputs, better comparisons, clearer plan recommendations.</h3>
+    </div>
+    <div class="case-img"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Add your screenshot here</div>
+    <div class="cs">
       <p>The drug lookup shipped as a sequential guided experience, one input per screen. Users entered a drug name, confirmed the dosage, selected the form, and confirmed the frequency across four clean, focused steps rather than a single overwhelming form. Completion rates improved and user confusion dropped significantly.</p>
       <p>The mobile plan comparison was redesigned to make scanning across plans actually manageable on a narrow screen. By fitting columns more efficiently and stacking content within each plan vertically, users could compare key attributes across multiple plans without horizontal scrolling or losing their place in the data.</p>
       <p>Plan results were organized around the filters seniors actually used to narrow their decisions: premium range, drug coverage, star rating, and provider network, rather than exposing every possible plan attribute upfront. Plan detail pages translated insurance terminology into plain language wherever possible, reducing the cognitive load of evaluating a plan.</p>
@@ -2144,6 +2396,7 @@ function showHome(section) {
   };
 
   scrollToSection(cameFromCase ? 'instant' : 'smooth');
+  document.getElementById('main-nav').classList.remove('nav-hidden');
   observeFI();
 }
 
@@ -2156,6 +2409,7 @@ function showCase(name) {
   const target = document.getElementById('case-' + name);
   if (target) target.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'instant' });
+  document.getElementById('main-nav').classList.remove('nav-hidden');
   observeFI();
 }
 
@@ -2165,13 +2419,26 @@ function scrollToSection(id) {
 }
 
 // ── NAV SCROLL STATE ──
+let lastScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('main-nav');
-  if (window.scrollY > 40) {
+  const currentY = window.scrollY;
+
+  if (currentY > 40) {
     nav.classList.add('scrolled');
   } else {
     nav.classList.remove('scrolled');
   }
+
+  if (currentY <= 40) {
+    nav.classList.remove('nav-hidden');
+  } else if (currentY > lastScrollY) {
+    nav.classList.add('nav-hidden');
+  } else if (currentY < lastScrollY) {
+    nav.classList.remove('nav-hidden');
+  }
+
+  lastScrollY = currentY;
 });
 
 // ── SCROLL ANIMATIONS ──

@@ -1357,6 +1357,50 @@ footer {
 .solution-gallery img:nth-child(3) { transition-delay: 0.3s; }
 .solution-gallery img:nth-child(4) { transition-delay: 0.45s; }
 
+/* Mobile-only image lightbox — tap a competitor-card or solution-gallery
+   photo on a case study page to view it full screen */
+.img-lightbox {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(19, 23, 28, 0.9);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.img-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.img-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--r-16);
+}
+.img-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.15);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+.img-lightbox-close:hover { background: rgba(255,255,255,0.25); }
+
 /* ═══════════════════════════════════════
    RESPONSIVE — Tablet (768–1024px)
    ═══════════════════════════════════════ */
@@ -1423,6 +1467,7 @@ footer {
 
   .solution-gallery img { max-width: 180px; scroll-snap-align: center; }
   .solution-gallery { padding-left: calc(50% - 90px); padding-right: calc(50% - 90px); }
+  .competitor-card img, .solution-gallery img { cursor: zoom-in; }
 
   .decision-caption h4 { font-size: 28px; }
   .decision-caption p { font-size: 16px; }
@@ -1458,7 +1503,8 @@ footer {
 
   /* Hero — stack content above the photo instead of overlapping it */
   .hero { min-height: auto; display: flex; flex-direction: column; align-items: stretch; }
-  .hero-content { order: 1; position: relative; z-index: 2; padding-bottom: 0; padding-top: 120px; max-width: 100%; }
+  .hero-content { order: 1; position: relative; z-index: 2; padding-bottom: 0; padding-top: 120px; max-width: 100%; text-align: center; }
+  .hero-text { margin: 0 auto; }
   .hero-photo-wrap { order: 2; position: relative; z-index: 3; inset: auto; width: 100%; height: 110vw; max-height: 640px; opacity: 1; }
   .hero-photo-wrap::before { display: none; }
   .hero-bg-red, .hero-bg-blue { display: none; }
@@ -1482,7 +1528,7 @@ footer {
   .work-section { margin-top: -1px; padding-top: var(--sp-64); }
   .hero-name { font-size: 64px; text-shadow: 2px 0px 0px var(--glitch-cyan), -2px 0px 0px var(--glitch-red); }
   .hero-title { font-size: 32px; }
-  .hero-sub { font-size: 18px; }
+  .hero-sub { font-size: 18px; margin-left: auto; margin-right: auto; }
 
   /* Cards */
   .cards-grid { grid-template-columns: 1fr; gap: var(--sp-24); }
@@ -2364,6 +2410,11 @@ footer {
   </div>
 </div>
 
+<div class="img-lightbox" id="img-lightbox">
+  <button class="img-lightbox-close" id="img-lightbox-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <img id="img-lightbox-img" src="" alt="">
+</div>
+
 <script>
 // ── NAVIGATION ──
 function showHome(section) {
@@ -2442,6 +2493,36 @@ function observeFI() {
 }
 
 observeFI();
+
+// ── MOBILE IMAGE LIGHTBOX (case study pages) ──
+(function() {
+  const lightbox = document.getElementById('img-lightbox');
+  const lightboxImg = document.getElementById('img-lightbox-img');
+  const closeBtn = document.getElementById('img-lightbox-close');
+
+  function openLightbox(img) {
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth > 768) return;
+    const img = e.target.closest('.competitor-card img, .solution-gallery img');
+    if (img) openLightbox(img);
+  });
+})();
 </script>
 </body>
 </html>

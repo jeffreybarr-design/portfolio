@@ -527,7 +527,7 @@ nav.nav-hidden {
    ABOUT BANNER (illustration strip)
    ═══════════════════════════════════════ */
 .about-heading {
-  background: var(--bg);
+  background: #13171C;
   padding: 96px var(--gutter) 0;
   scroll-margin-top: 88px;
 }
@@ -537,9 +537,9 @@ nav.nav-hidden {
 }
 .about-banner {
   width: 100%;
-  background: var(--bg);
+  background: #13171C;
   margin-top: var(--section-gap);
-  overflow: hidden;
+  padding-bottom: 12px;
 }
 .about-banner-inner {
   max-width: var(--max-width);
@@ -586,7 +586,7 @@ nav.nav-hidden {
 .about-footer-wrap {
   position: relative;
   overflow: hidden;
-  background: var(--bg);
+  background: #13171C;
 }
 .section-bg-red {
   position: absolute;
@@ -1041,7 +1041,7 @@ footer {
 }
 .cs p {
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   color: #2E353F;
   margin-bottom: var(--sp-16);
@@ -1206,7 +1206,7 @@ footer {
 }
 .decision-caption p {
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   color: #2E353F;
 }
@@ -1342,7 +1342,8 @@ footer {
   color: var(--text-primary);
   display: inline-block;
 }
-.next-arrow { font-size: 28px; color: var(--accent); }
+.next-arrow { display: flex; flex-shrink: 0; color: var(--accent); }
+.next-arrow img { width: 48px; height: 48px; flex-shrink: 0; }
 
 /* ═══════════════════════════════════════
    ANIMATIONS
@@ -1364,6 +1365,7 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 1000;
+  overflow: hidden;
   background: rgba(19, 23, 28, 0.9);
   align-items: center;
   justify-content: center;
@@ -1381,6 +1383,8 @@ footer {
 .img-lightbox img {
   max-width: 100%;
   max-height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
   border-radius: var(--r-16);
 }
@@ -1579,6 +1583,7 @@ footer {
   .outcomes-grid { grid-template-columns: 1fr; }
   .quotes-grid { grid-template-columns: 1fr; }
   .next-bar { padding: var(--sp-24) var(--gutter); }
+  .next-arrow img { width: 32px; height: 32px; }
   .competitor-card { grid-template-columns: 1fr 1fr; padding: 16px; }
   .competitor-pill { font-size: 10px; }
 
@@ -1816,13 +1821,14 @@ footer {
             <p class="tag-group-label">Tools</p>
             <div class="tags-wrap">
               <span class="tag"><img class="tag-icon" src="icons/PaintBrush.svg" alt="" />Figma</span>
-              <span class="tag"><img class="tag-icon" src="icons/PaintBrush.svg" alt="" />Figma Make</span>
+              <span class="tag"><img class="tag-icon" src="icons/PaintBrush.svg" alt="" />Sketch</span>
+              <span class="tag"><img class="tag-icon" src="icons/PaintBrush.svg" alt="" />Adobe Creative Cloud</span>
+              <span class="tag"><img class="tag-icon" src="icons/Sparkle.svg" alt="" />Figma Make</span>
               <span class="tag"><img class="tag-icon" src="icons/Sparkle.svg" alt="" />Claude</span>
               <span class="tag"><img class="tag-icon" src="icons/Sparkle.svg" alt="" />Claude Code</span>
               <span class="tag"><img class="tag-icon" src="icons/Sparkle.svg" alt="" />ChatGPT</span>
               <span class="tag"><img class="tag-icon" src="icons/ChartLineUp.svg" alt="" />LogRocket</span>
               <span class="tag"><img class="tag-icon" src="icons/ChartLineUp.svg" alt="" />FullStory</span>
-              <span class="tag"><img class="tag-icon" src="icons/PaintBrush.svg" alt="" />Adobe Creative Cloud</span>
               <span class="tag"><img class="tag-icon" src="icons/Wrench.svg" alt="" />Storybook</span>
               <span class="tag"><img class="tag-icon" src="icons/Wrench.svg" alt="" />Jira</span>
               <span class="tag"><img class="tag-icon" src="icons/CodeSimple.svg" alt="" />HTML/CSS</span>
@@ -2003,7 +2009,7 @@ footer {
   <div class="case-footer-wrap">
     <img class="case-footer-red" src="red.svg" alt="" />
     <img class="case-footer-blue" src="blue.svg" alt="" />
-    <div class="next-bar" onclick="showCase('spb')"><div><div class="next-label">Next Case Study</div><div class="next-title">AI Social Post Builder</div></div><span class="next-arrow">→</span></div>
+    <div class="next-bar" onclick="showCase('spb')"><div><div class="next-label">Next Case Study</div><div class="next-title">AI Social Post Builder</div></div><span class="next-arrow"><img src="icons/ArrowRight.svg" alt=""></span></div>
     <footer>
       <img class="footer-bg-red-mobile" src="red.svg" alt="" />
       <img class="footer-bg-blue-mobile" src="blue.svg" alt="" />
@@ -2136,7 +2142,7 @@ footer {
   <div class="case-footer-wrap">
     <img class="case-footer-red" src="red.svg" alt="" />
     <img class="case-footer-blue" src="blue.svg" alt="" />
-    <div class="next-bar" onclick="showCase('cw')"><div><div class="next-label">Next Case Study</div><div class="next-title">Custom Websites</div></div><span class="next-arrow">→</span></div>
+    <div class="next-bar" onclick="showCase('cw')"><div><div class="next-label">Next Case Study</div><div class="next-title">Custom Websites</div></div><span class="next-arrow"><img src="icons/ArrowRight.svg" alt=""></span></div>
     <footer>
       <img class="footer-bg-red-mobile" src="red.svg" alt="" />
       <img class="footer-bg-blue-mobile" src="blue.svg" alt="" />
@@ -2257,7 +2263,7 @@ footer {
   <div class="case-footer-wrap">
     <img class="case-footer-red" src="red.svg" alt="" />
     <img class="case-footer-blue" src="blue.svg" alt="" />
-    <div class="next-bar" onclick="showCase('medicare')"><div><div class="next-label">Next Case Study</div><div class="next-title">Medicare Shopping Experience</div></div><span class="next-arrow">→</span></div>
+    <div class="next-bar" onclick="showCase('medicare')"><div><div class="next-label">Next Case Study</div><div class="next-title">Medicare Shopping Experience</div></div><span class="next-arrow"><img src="icons/ArrowRight.svg" alt=""></span></div>
     <footer>
       <img class="footer-bg-red-mobile" src="red.svg" alt="" />
       <img class="footer-bg-blue-mobile" src="blue.svg" alt="" />
@@ -2390,7 +2396,7 @@ footer {
   <div class="case-footer-wrap">
     <img class="case-footer-red" src="red.svg" alt="" />
     <img class="case-footer-blue" src="blue.svg" alt="" />
-    <div class="next-bar" onclick="showCase('deposits')"><div><div class="next-label">Back to First Case Study</div><div class="next-title">Deposits & No-Show Protection</div></div><span class="next-arrow">→</span></div>
+    <div class="next-bar" onclick="showCase('deposits')"><div><div class="next-label">Back to First Case Study</div><div class="next-title">Deposits & No-Show Protection</div></div><span class="next-arrow"><img src="icons/ArrowRight.svg" alt=""></span></div>
     <footer>
       <img class="footer-bg-red-mobile" src="red.svg" alt="" />
       <img class="footer-bg-blue-mobile" src="blue.svg" alt="" />
@@ -2436,7 +2442,7 @@ function showHome(section) {
   };
 
   scrollToSection(cameFromCase ? 'instant' : 'smooth');
-  document.getElementById('main-nav').classList.remove('nav-hidden');
+  markNavInteraction();
   observeFI();
 }
 
@@ -2449,17 +2455,30 @@ function showCase(name) {
   const target = document.getElementById('case-' + name);
   if (target) target.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'instant' });
-  document.getElementById('main-nav').classList.remove('nav-hidden');
+  markNavInteraction();
   observeFI();
 }
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
+  markNavInteraction();
 }
 
 // ── NAV SCROLL STATE ──
 let lastScrollY = window.scrollY;
+let suppressNavAutoHide = false;
+let suppressNavTimer = null;
+
+// Keep the nav visible through a programmatic (click-triggered) scroll —
+// only resume the hide-on-scroll-down behavior once that scroll settles.
+function markNavInteraction() {
+  suppressNavAutoHide = true;
+  document.getElementById('main-nav').classList.remove('nav-hidden');
+  clearTimeout(suppressNavTimer);
+  suppressNavTimer = setTimeout(() => { suppressNavAutoHide = false; }, 300);
+}
+
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('main-nav');
   const currentY = window.scrollY;
@@ -2470,7 +2489,10 @@ window.addEventListener('scroll', () => {
     nav.classList.remove('scrolled');
   }
 
-  if (currentY <= 40) {
+  if (suppressNavAutoHide) {
+    clearTimeout(suppressNavTimer);
+    suppressNavTimer = setTimeout(() => { suppressNavAutoHide = false; }, 300);
+  } else if (currentY <= 40) {
     nav.classList.remove('nav-hidden');
   } else if (currentY > lastScrollY) {
     nav.classList.add('nav-hidden');
@@ -2500,9 +2522,18 @@ observeFI();
   const lightboxImg = document.getElementById('img-lightbox-img');
   const closeBtn = document.getElementById('img-lightbox-close');
 
-  function openLightbox(img) {
+  let group = [];
+  let index = 0;
+
+  function show(i) {
+    index = (i + group.length) % group.length;
+    const img = group[index];
     lightboxImg.src = img.currentSrc || img.src;
     lightboxImg.alt = img.alt || '';
+  }
+  function openLightbox(images, i) {
+    group = images;
+    show(i);
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -2520,8 +2551,26 @@ observeFI();
   document.addEventListener('click', (e) => {
     if (window.innerWidth > 768) return;
     const img = e.target.closest('.competitor-card img, .solution-gallery img');
-    if (img) openLightbox(img);
+    if (!img) return;
+    const groupEl = img.closest('.competitor-card, .solution-gallery');
+    const images = Array.from(groupEl.querySelectorAll('img'));
+    openLightbox(images, images.indexOf(img));
   });
+
+  // Swipe left/right to browse the rest of the set
+  let touchStartX = 0, touchStartY = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    if (group.length < 2) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      show(index + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
 })();
 </script>
 </body>

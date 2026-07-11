@@ -219,7 +219,7 @@ nav.nav-hidden {
   transition: color 0.2s;
   cursor: pointer;
 }
-.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 6px; }
 
 /* ═══════════════════════════════════════
    HERO
@@ -368,6 +368,7 @@ nav.nav-hidden {
   transition: background 0.2s, transform 0.15s;
 }
 .btn-cta:hover { background: #c91a1e; transform: translateY(-1px); }
+.btn-cta:active { transform: scale(0.96); }
 .btn-cta .arrow {
   display: inline-flex;
   align-items: center;
@@ -376,7 +377,9 @@ nav.nav-hidden {
 .btn-cta .arrow img {
   width: 24px;
   height: 24px;
+  transition: transform 0.2s ease;
 }
+.btn-cta:hover .arrow img { transform: translateX(4px); }
 
 /* ═══════════════════════════════════════
    CASE STUDIES SECTION
@@ -515,7 +518,7 @@ nav.nav-hidden {
   border: 1.5px solid #D0D0C8;
   border-radius: var(--r-full);
   padding: var(--sp-8) var(--sp-20);
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
   margin-top: auto;
   width: fit-content;
 }
@@ -523,6 +526,9 @@ nav.nav-hidden {
   border-color: var(--glitch-red);
   color: var(--glitch-red);
 }
+.btn-view svg { transition: transform 0.2s ease; }
+.case-card:hover .btn-view svg { transform: translateX(4px); }
+.case-card:active .btn-view { transform: scale(0.96); }
 
 /* ═══════════════════════════════════════
    ABOUT BANNER (illustration strip)
@@ -679,6 +685,9 @@ nav.nav-hidden {
   border: none;
   text-decoration: none;
 }
+.btn-pill:active { transform: scale(0.96); }
+.btn-pill svg { transition: transform 0.2s ease; }
+.btn-pill:hover svg { transform: translateX(4px); }
 .btn-pill-primary {
   background: var(--glitch-red);
   color: #fff;
@@ -817,9 +826,9 @@ nav.nav-hidden {
   border: 1px solid #E9ECF0;
   border-radius: 0;
   padding: 8px var(--sp-12);
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 1.6s ease, color 1.6s ease, background-color 1.9s ease;
 }
-.tag:hover { border-color: var(--glitch-cyan); color: var(--text-primary); }
+.tag:hover { border-color: var(--glitch-cyan); color: var(--text-primary); background-color: #0B6C77; transition: border-color 0.2s ease, color 0.2s ease, background-color 0.3s ease; }
 .tag .tag-dot {
   width: 5px;
   height: 5px;
@@ -885,6 +894,18 @@ footer {
   font-size: 16px;
   color: var(--text-secondary);
 }
+.footer-note {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: var(--sp-32) auto 0;
+  padding: 0 var(--gutter);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-secondary);
+  opacity: 0.6;
+  text-align: center;
+}
 .footer-links {
   display: flex;
   flex-direction: column;
@@ -949,8 +970,10 @@ footer {
   margin-bottom: var(--sp-64);
   transition: all 0.2s;
 }
-.back-btn svg { width: 16px; height: 16px; }
+.back-btn svg { width: 16px; height: 16px; transition: transform 0.2s ease; }
 .back-btn:hover { color: var(--accent); border-color: var(--accent); }
+.back-btn:hover svg { transform: translateX(-4px); }
+.back-btn:active { transform: scale(0.96); }
 
 .case-hero-title {
   font-family: var(--font-display);
@@ -1071,18 +1094,50 @@ footer {
 
 .competitor-card {
   position: relative;
-  background: rgba(207, 216, 228, 0.3);
   border-radius: var(--r-24);
   padding: 24px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
   margin: var(--section-gap) auto 0;
+  overflow: hidden;
 }
-.competitor-card img {
-  width: 100%;
+.competitor-card::before,
+.competitor-card::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+.competitor-card::before {
+  left: 0;
+  background: linear-gradient(to right, #E9ECF0, transparent);
+}
+.competitor-card::after {
+  right: 0;
+  background: linear-gradient(to left, #E9ECF0, transparent);
+}
+.competitor-track {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  min-width: 0;
+  padding: 16px 0;
+  margin: -16px 0;
+}
+.competitor-track img {
+  flex: 0 0 auto;
+  width: 260px;
+  max-width: 100%;
   height: auto;
   display: block;
+  border-radius: 16px;
+  scroll-snap-align: start;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.12);
 }
 .competitor-pill {
   position: absolute;
@@ -1105,6 +1160,7 @@ footer {
   position: relative;
   overflow: hidden;
   margin-top: var(--section-gap);
+  padding: 24px 0;
 }
 .solution-gallery {
   display: flex;
@@ -1119,7 +1175,8 @@ footer {
   max-width: 280px;
   min-width: 0;
   height: auto;
-  border-radius: var(--r-16);
+  border-radius: 48px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.12);
 }
 
 .process-list {
@@ -1285,11 +1342,12 @@ footer {
 }
 .oc {
   background: #13171C;
+  border: 1px solid transparent;
   border-radius: 32px;
   padding: 32px;
   opacity: 0;
   transform: translateY(32px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.8s ease, background-color 1s ease;
 }
 .outcomes-grid.vis .oc { opacity: 1; transform: translateY(0); }
 .oc:nth-child(1) { transition-delay: 0s; }
@@ -1298,6 +1356,7 @@ footer {
 .oc:nth-child(4) { transition-delay: 0.3s; }
 .oc:nth-child(5) { transition-delay: 0.4s; }
 .oc:nth-child(6) { transition-delay: 0.5s; }
+.oc:hover { border-color: var(--glitch-cyan); background-color: #0B6C77; transition: opacity 0.6s ease, transform 0.6s ease, border-color 0s 0s, background-color 0s 0s; }
 .oc-num {
   font-family: var(--font-display);
   font-weight: 100;
@@ -1346,7 +1405,8 @@ footer {
   display: inline-block;
 }
 .next-arrow { display: flex; flex-shrink: 0; color: var(--accent); }
-.next-arrow img { width: 48px; height: 48px; flex-shrink: 0; }
+.next-arrow img { width: 48px; height: 48px; flex-shrink: 0; transition: transform 0.2s ease; }
+.next-bar:hover .next-arrow img { transform: translateX(4px); }
 
 /* ═══════════════════════════════════════
    ANIMATIONS
@@ -1360,6 +1420,13 @@ footer {
 .solution-gallery img:nth-child(2) { transition-delay: 0.15s; }
 .solution-gallery img:nth-child(3) { transition-delay: 0.3s; }
 .solution-gallery img:nth-child(4) { transition-delay: 0.45s; }
+
+.competitor-track img { opacity: 0; transform: translateY(48px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.competitor-card.vis .competitor-track img { opacity: 1; transform: translateY(0); }
+.competitor-track img:nth-child(1) { transition-delay: 0s; }
+.competitor-track img:nth-child(2) { transition-delay: 0.15s; }
+.competitor-track img:nth-child(3) { transition-delay: 0.3s; }
+.competitor-track img:nth-child(4) { transition-delay: 0.45s; }
 
 /* Mobile-only image lightbox — tap a competitor-card or solution-gallery
    photo on a case study page to view it full screen */
@@ -1449,6 +1516,8 @@ footer {
     max-width: 220px;
     scroll-snap-align: start;
   }
+  .competitor-track { justify-content: flex-start; }
+  .competitor-track img { width: 220px; }
 }
 
 /* Meta row card needs to switch to its tighter, wrapped layout a bit
@@ -1563,6 +1632,7 @@ footer {
   footer { padding: 90px 0 280px; }
   .footer-inner { grid-template-columns: 1fr; gap: var(--sp-24); }
   .footer-links { text-align: left; }
+  .footer-note { text-align: left; }
   .footer-bg-red-mobile {
     display: block;
     right: -35%;
@@ -1589,7 +1659,9 @@ footer {
   .quotes-grid { grid-template-columns: 1fr; }
   .next-bar { padding: var(--sp-24) var(--gutter); }
   .next-arrow img { width: 32px; height: 32px; }
-  .competitor-card { grid-template-columns: 1fr 1fr; padding: 16px; }
+  .competitor-card { padding: 16px; }
+  .competitor-card::before, .competitor-card::after { top: 16px; bottom: 16px; width: 32px; }
+  .competitor-track img { width: 220px; }
   .competitor-pill { font-size: 10px; }
 
   /* Typography — mobile scale from tokens */
@@ -1879,6 +1951,7 @@ footer {
         <a href="https://linkedin.com/in/thejeffbarr" target="_blank"><img src="icons/LinkedinLogo.svg" alt="" />linkedin.com/in/thejeffbarr</a>
       </div>
     </div>
+    <p class="footer-note">* This site was hand-coded by me. No page builders required.</p>
   </footer>
 
   </div><!-- /about-footer-wrap -->
@@ -1911,12 +1984,14 @@ footer {
       <div class="cs-label">Background</div>
       <h3>No-shows were costing pros real money with no recourse.</h3>
     </div>
-    <div class="competitor-card">
+    <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Behind the Competition</span>
+      <div class="competitor-track">
       <img src="boosky.webp" alt="Booksy deposit feature screen" loading="lazy">
       <img src="vagaro.webp" alt="Vagaro deposits and no-show protection blog post" loading="lazy">
       <img src="glossg.webp" alt="GlossGenius deposit collection feature screen" loading="lazy">
       <img src="acuity.webp" alt="Acuity Scheduling deposits and prepayments feature screen" loading="lazy">
+      </div>
     </div>
     <div class="cs">
       <p>Independent beauty professionals on StyleSeat run tight schedules where every appointment slot has real financial value. A no-show doesn't just mean lost revenue. It means lost time that can't be recovered, often with no notice and no way to hold the client accountable.</p>
@@ -2030,6 +2105,7 @@ footer {
           <a href="https://linkedin.com/in/thejeffbarr" target="_blank"><img src="icons/LinkedinLogo.svg" alt="" />linkedin.com/in/thejeffbarr</a>
         </div>
       </div>
+      <p class="footer-note">* This site was hand-coded by me. No page builders required.</p>
     </footer>
   </div>
 </div>
@@ -2059,12 +2135,14 @@ footer {
       <div class="cs-label">Background</div>
       <h3>No playbook, no competitors, no precedent.</h3>
     </div>
-    <div class="competitor-card">
+    <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Before: Static Templates</span>
+      <div class="competitor-track">
       <img src="oldsoc1.webp" alt="Old static 'Book Now' social post template" loading="lazy">
       <img src="oldsoc2.webp" alt="Old static 'Now taking appointments' social post template" loading="lazy">
       <img src="oldsoc3.webp" alt="Old static 'You can now book me on StyleSeat' social post template" loading="lazy">
       <img src="oldsoc4.webp" alt="Old static 'Text to book an appointment' social post template" loading="lazy">
+      </div>
     </div>
     <div class="cs">
       <p>When this project started, no one in the beauty industry had built an AI social media content tool for independent professionals. There was nothing to reference, nothing to benchmark against. This was a true zero-to-one problem.</p>
@@ -2163,6 +2241,7 @@ footer {
           <a href="https://linkedin.com/in/thejeffbarr" target="_blank"><img src="icons/LinkedinLogo.svg" alt="" />linkedin.com/in/thejeffbarr</a>
         </div>
       </div>
+      <p class="footer-note">* This site was hand-coded by me. No page builders required.</p>
     </footer>
   </div>
 </div>
@@ -2192,12 +2271,14 @@ footer {
       <div class="cs-label">Background</div>
       <h3>A top request pros couldn't afford to build themselves.</h3>
     </div>
-    <div class="competitor-card">
+    <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">StyleSeat Profile &amp; Competitors</span>
+      <div class="competitor-track">
       <img src="oldweb1.webp" alt="StyleSeat pro profile page before Custom Websites" loading="lazy">
       <img src="oldweb2.webp" alt="Competitor website builder example" loading="lazy">
       <img src="oldweb3.webp" alt="Competitor website builder example" loading="lazy">
       <img src="oldweb4.webp" alt="Competitor website builder example" loading="lazy">
+      </div>
     </div>
     <div class="cs">
       <p>Independent beauty professionals consistently asked for a way to have their own website. The problem was that building one was expensive, time-consuming, and required technical skills most pros didn't have. Third-party website builders were an option, but they were disconnected from the StyleSeat booking system and required starting from scratch with no industry-specific templates.</p>
@@ -2266,7 +2347,7 @@ footer {
         <div class="oc"><span class="oc-num">12%</span><span class="oc-label">Pro adoption, exceeding the 11% beta target</span></div>
         <div class="oc"><span class="oc-num">↑</span><span class="oc-label">Strong flow completion rates through the builder</span></div>
         <div class="oc"><span class="oc-num">✓</span><span class="oc-label">Validated willingness to pay for the feature</span></div>
-        <div class="oc"><span class="oc-num">3</span><span class="oc-label">Templates designed from scratch, 3 more in development</span></div>
+        <div class="oc"><span class="oc-num">3</span><span class="oc-label">Templates designed from scratch, 2 more in dev.</span></div>
       </div>
     </div>
    </div>
@@ -2290,6 +2371,7 @@ footer {
           <a href="https://linkedin.com/in/thejeffbarr" target="_blank"><img src="icons/LinkedinLogo.svg" alt="" />linkedin.com/in/thejeffbarr</a>
         </div>
       </div>
+      <p class="footer-note">* This site was hand-coded by me. No page builders required.</p>
     </footer>
   </div>
 </div>
@@ -2319,12 +2401,14 @@ footer {
       <div class="cs-label">Background</div>
       <h3>Medicare is genuinely hard to shop for. We had to make it feel easy.</h3>
     </div>
-    <div class="competitor-card">
+    <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Previous Experience</span>
+      <div class="competitor-track">
       <img src="oldHI1.webp" alt="Previous HealthInsurance.com homepage plan finder" loading="lazy">
       <img src="oldHI2.webp" alt="Previous HealthInsurance.com Medicare Advantage plan list" loading="lazy">
       <img src="oldHI3.webp" alt="Previous HealthInsurance.com plan detail screen" loading="lazy">
       <img src="oldHI4.webp" alt="Previous HealthInsurance.com plan comparison screen" loading="lazy">
+      </div>
     </div>
     <div class="cs">
       <p>HealthInsurance.com was rebuilding its Medicare shopping experience to coincide with a company rebrand and a move to a modern tech stack. The existing site had usability issues, accessibility failures, and a design that didn't reflect the new brand. The deadline was hard: Medicare open enrollment.</p>
@@ -2423,6 +2507,7 @@ footer {
           <a href="https://linkedin.com/in/thejeffbarr" target="_blank"><img src="icons/LinkedinLogo.svg" alt="" />linkedin.com/in/thejeffbarr</a>
         </div>
       </div>
+      <p class="footer-note">* This site was hand-coded by me. No page builders required.</p>
     </footer>
   </div>
 </div>

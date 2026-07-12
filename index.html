@@ -548,6 +548,7 @@ nav.nav-hidden {
   background: #13171C;
   margin-top: var(--section-gap);
   padding-bottom: 12px;
+  transform: translateZ(0);
 }
 .about-banner-inner {
   max-width: var(--max-width);
@@ -595,6 +596,7 @@ nav.nav-hidden {
   position: relative;
   overflow: hidden;
   background: #13171C;
+  transform: translateZ(0);
 }
 .section-bg-red {
   position: absolute;
@@ -1255,15 +1257,25 @@ footer {
   width: 100%;
   height: auto;
 }
+.decision-visual-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
 .decision-img-placeholder {
   color: #B0B0A8;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
+.decision-block {
+  display: flex;
+  flex-direction: column-reverse;
+}
 .decision-caption {
   max-width: 720px;
-  margin: var(--sp-24) auto 0;
+  margin: 0 auto var(--sp-24);
   text-align: left;
 }
 .decision-caption h4 {
@@ -1432,6 +1444,45 @@ footer {
 .solution-gallery img:nth-child(2) { transition-delay: 0.15s; }
 .solution-gallery img:nth-child(3) { transition-delay: 0.3s; }
 .solution-gallery img:nth-child(4) { transition-delay: 0.45s; }
+.solution-gallery img:nth-child(5) { transition-delay: 0.6s; }
+.solution-gallery img:nth-child(6) { transition-delay: 0.75s; }
+.solution-gallery img:nth-child(7) { transition-delay: 0.9s; }
+.solution-gallery img:nth-child(8) { transition-delay: 1.05s; }
+.solution-gallery img:nth-child(9) { transition-delay: 1.2s; }
+
+/* Wide gallery — some solution sections have more images than fit in one
+   row even on desktop, so this modifier turns the whole gallery into a
+   horizontally scrollable carousel at every breakpoint, not just tablet. */
+.solution-gallery-wrap.wide-gallery::before,
+.solution-gallery-wrap.wide-gallery::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: var(--sp-16);
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+.solution-gallery-wrap.wide-gallery::before {
+  left: 0;
+  background: linear-gradient(to right, #E9ECF0, transparent);
+}
+.solution-gallery-wrap.wide-gallery::after {
+  right: 0;
+  background: linear-gradient(to left, #E9ECF0, transparent);
+}
+.solution-gallery-wrap.wide-gallery .solution-gallery {
+  justify-content: safe center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 48px var(--sp-16);
+}
+.solution-gallery-wrap.wide-gallery .solution-gallery img {
+  flex: 0 0 auto;
+  max-width: 220px;
+  scroll-snap-align: start;
+}
 
 .competitor-track img { opacity: 0; transform: translateY(48px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .competitor-card.vis .competitor-track img { opacity: 1; transform: translateY(0); }
@@ -1716,7 +1767,7 @@ footer {
       <img class="hero-bg-blue-mobile" src="blue.svg" alt="" />
       <picture>
         <source srcset="hero.avif" type="image/avif">
-        <img class="hero-photo" src="hero.png" alt="Jeff Barr" fetchpriority="high" onerror="this.style.display='none'">
+        <img class="hero-photo" src="hero.webp" alt="Jeff Barr" fetchpriority="high" onerror="this.style.display='none'">
       </picture>
     </div>
     <div class="hero-content">
@@ -1745,7 +1796,7 @@ footer {
             <div class="card-image-placeholder">
               <picture>
                 <source srcset="homedeposit.avif" type="image/avif">
-                <img src="homedeposit.png" alt="Deposits" loading="lazy" onerror="this.style.display='none'">
+                <img src="homedeposit.webp" alt="Deposits" loading="lazy" onerror="this.style.display='none'">
               </picture>
             </div>
           </div>
@@ -1763,7 +1814,7 @@ footer {
             <div class="card-image-placeholder">
               <picture>
                 <source srcset="homesocialpost.avif" type="image/avif">
-                <img src="homesocialpost.png" alt="Social Post Builder" loading="lazy" onerror="this.style.display='none'">
+                <img src="homesocialpost.webp" alt="Social Post Builder" loading="lazy" onerror="this.style.display='none'">
               </picture>
             </div>
           </div>
@@ -1781,7 +1832,7 @@ footer {
             <div class="card-image-placeholder">
               <picture>
                 <source srcset="homecustomweb.avif" type="image/avif">
-                <img src="homecustomweb.png" alt="Custom Websites" loading="lazy" onerror="this.style.display='none'">
+                <img src="homecustomweb.webp" alt="Custom Websites" loading="lazy" onerror="this.style.display='none'">
               </picture>
             </div>
           </div>
@@ -1799,14 +1850,14 @@ footer {
             <div class="card-image-placeholder">
               <picture>
                 <source srcset="homemedicare.avif" type="image/avif">
-                <img src="homemedicare.png" alt="Medicare Shopping Experience" loading="lazy" onerror="this.style.display='none'">
+                <img src="homemedicare.webp" alt="Medicare Shopping Experience" loading="lazy" onerror="this.style.display='none'">
               </picture>
             </div>
           </div>
           <div class="card-body">
             <p class="card-client">HealthInsurance.com</p>
             <h3 class="card-title">Medicare Shopping Experience</h3>
-            <p class="card-desc">Redesigning Medicare plan shopping for seniors, applying 10 years of health insurance domain knowledge to one of the hardest UX problems in consumer health.</p>
+            <p class="card-desc">Redesigning Medicare plan shopping for seniors, applying years of health insurance domain knowledge to one of the hardest UX problems in consumer health.</p>
             <span class="btn-view">View <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.7806 12.5306L14.0306 19.2806C13.8899 19.4214 13.699 19.5004 13.5 19.5004C13.301 19.5004 13.1101 19.4214 12.9694 19.2806C12.8286 19.1399 12.7496 18.949 12.7496 18.75C12.7496 18.551 12.8286 18.3601 12.9694 18.2194L18.4397 12.75H3.75C3.55109 12.75 3.36032 12.671 3.21967 12.5303C3.07902 12.3897 3 12.1989 3 12C3 11.8011 3.07902 11.6103 3.21967 11.4697C3.36032 11.329 3.55109 11.25 3.75 11.25H18.4397L12.9694 5.78062C12.8286 5.63989 12.7496 5.44902 12.7496 5.25C12.7496 5.05097 12.8286 4.8601 12.9694 4.71937C13.1101 4.57864 13.301 4.49958 13.5 4.49958C13.699 4.49958 13.8899 4.57864 14.0306 4.71937L20.7806 11.4694C20.8504 11.539 20.9057 11.6217 20.9434 11.7128C20.9812 11.8038 21.0006 11.9014 21.0006 12C21.0006 12.0986 20.9812 12.1962 20.9434 12.2872C20.9057 12.3783 20.8504 12.461 20.7806 12.5306Z" fill="currentColor"/></svg></span>
           </div>
         </a>
@@ -1826,7 +1877,7 @@ footer {
   <div class="about-banner">
     <div class="about-banner-inner">
       <!-- Replace with your actual illustration/banner image -->
-      <div class="about-banner-placeholder"><picture><source srcset="about.avif" type="image/avif"><img class="about-photo" src="about.png" alt="About Jeff Barr" loading="lazy" onerror="this.style.display='none'"></picture></div>
+      <div class="about-banner-placeholder"><picture><source srcset="about.avif" type="image/avif"><img class="about-photo" src="about.webp" alt="About Jeff Barr" loading="lazy" onerror="this.style.display='none'"></picture></div>
     </div>
   </div>
 
@@ -1996,6 +2047,10 @@ footer {
       <div class="cs-label">Background</div>
       <h3>No-shows were costing pros real money with no recourse.</h3>
     </div>
+    <div class="cs">
+      <p>StyleSeat had no digital mechanism for pros to protect themselves from no-shows, despite it being standard practice offline.</p>
+      <p>Building this meant designing for two very different users at once: pros who needed control, and clients who needed to feel the process was fair.</p>
+    </div>
     <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Behind the Competition</span>
       <div class="competitor-track">
@@ -2004,10 +2059,6 @@ footer {
       <img src="glossg.webp" alt="GlossGenius deposit collection feature screen" loading="lazy">
       <img src="acuity.webp" alt="Acuity Scheduling deposits and prepayments feature screen" loading="lazy">
       </div>
-    </div>
-    <div class="cs">
-      <p>StyleSeat had no digital mechanism for pros to protect themselves from no-shows, despite it being standard practice offline.</p>
-      <p>Building this meant designing for two very different users at once: pros who needed control, and clients who needed to feel the process was fair.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
@@ -2027,6 +2078,9 @@ footer {
       <div class="cs-label">Solution</div>
       <h3>A flexible deposit system that worked for every scenario.</h3>
     </div>
+    <div class="cs">
+      <p>Pros set a deposit amount and choose which services require one from a dedicated settings screen, with the option to require deposits at the individual service level. On the client side, the deposit is surfaced clearly at booking with a full cost breakdown showing what's due now and what's due at the appointment.</p>
+    </div>
     <div class="solution-gallery-wrap gallery-reveal">
       <div class="solution-gallery">
         <img src="finaldepo5.webp" alt="Deposits solution screen" loading="lazy">
@@ -2034,9 +2088,6 @@ footer {
         <img src="finalclientdepo1.webp" alt="Deposits solution screen" loading="lazy">
         <img src="finalclientdepo3.webp" alt="Deposits solution screen" loading="lazy">
       </div>
-    </div>
-    <div class="cs">
-      <p>Pros set a deposit amount and choose which services require one from a dedicated settings screen, with the option to require deposits at the individual service level. On the client side, the deposit is surfaced clearly at booking with a full cost breakdown showing what's due now and what's due at the appointment.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Impact</div>
@@ -2117,6 +2168,10 @@ footer {
       <div class="cs-label">Background</div>
       <h3>No playbook, no competitors, no precedent.</h3>
     </div>
+    <div class="cs">
+      <p>Pros knew social media was critical for their business but consistently said it was one of the most stressful parts of running it.</p>
+      <p>The existing solution was static templates updated periodically, the same for every pro, with no personalization and no connection to their actual business.</p>
+    </div>
     <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Before: Static Templates</span>
       <div class="competitor-track">
@@ -2127,41 +2182,41 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <p>Pros knew social media was critical for their business but consistently said it was one of the most stressful parts of running it.</p>
-      <p>The existing solution was four static Book Now templates, the same for every pro, with no personalization and no connection to their actual business.</p>
-    </div>
-    <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>How I solved it.</h3>
     </div>
         <div class="decisions-stack">
       <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
+        <div class="decision-visual gallery-reveal"><img src="post_categories.webp" alt="Social Post Builder topic category selection screen" loading="lazy"></div>
         <div class="decision-caption"><h4>Topic categories over open prompts</h4><p>Rather than a free-text prompt field, I designed a curated set of topic categories: client reviews, open appointments, seasonal promotions, and service spotlights. These gave the AI controlled, quality inputs while keeping the experience simple for pros who weren't content creators. Custom prompting was cut from MVP to protect output quality and brand safety until the core concept was validated.</p></div>
       </div>
       <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
-        <div class="decision-caption"><h4>Brand personalization system</h4><p>To prevent every pro's posts from looking identical, I designed a brand layer where pros selected their colors and chose a visual style before generating. A high-contrast editorial look for one stylist, a warm personal tone for another. Same AI, but posts that felt like they came from that specific business.</p></div>
+        <div class="decision-visual gallery-reveal"><img src="custom_post_branding.webp" alt="Social Post Builder brand personalization screen" loading="lazy"></div>
+        <div class="decision-caption"><h4>Brand personalization system</h4><p>To prevent every pro's posts from looking identical, I designed a brand layer where pros selected their colors and chose a visual style before generating. Pros can also upload their own photos to use in posts, giving them full control over the imagery alongside the AI-generated copy. For Custom Websites, we automatically pull a screenshot of their published site as a post option, turning their website into a marketing asset from day one. Same AI, but posts that felt like they came from that specific business.</p></div>
       </div>
     </div>
     <div class="cs">
       <div class="cs-label">Solution</div>
       <h3>A structured AI content tool with brand personalization built in.</h3>
     </div>
-    <div class="solution-gallery-wrap gallery-reveal">
+    <div class="cs">
+      <p>Pros pick a topic, configure their brand profile once, and get a ready-to-share post they can edit, preview, and download or share directly to Instagram. The edit step was intentional. Giving pros ownership over the final result made the AI output feel like a starting point they controlled, not something they had to trust blindly.</p>
+    </div>
+    <div class="solution-gallery-wrap gallery-reveal wide-gallery">
       <div class="solution-gallery">
         <img src="finalsocial1.webp" alt="Social Post Builder topic category selection screen" loading="lazy">
         <img src="finalsocial2.webp" alt="Social Post Builder brand personalization screen" loading="lazy">
         <img src="finalsocial3.webp" alt="Social Post Builder generated post preview" loading="lazy">
         <img src="finalsocial4.webp" alt="Social Post Builder edit and share screen" loading="lazy">
+        <img src="post1.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post2.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post3.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post4.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post5.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post6.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post7.webp" alt="Social Post Builder additional screen" loading="lazy">
+        <img src="post8.webp" alt="Social Post Builder additional screen" loading="lazy">
       </div>
-    </div>
-    <div class="cs">
-      <p>Pros pick a topic, configure their brand profile once, and get a ready-to-share post they can edit, preview, and download or share directly to Instagram. The edit step was intentional. Giving pros ownership over the final result made the AI output feel like a starting point they controlled, not something they had to trust blindly.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Impact</div>
@@ -2226,6 +2281,10 @@ footer {
       <div class="cs-label">Background</div>
       <h3>A top request pros couldn't afford to build themselves.</h3>
     </div>
+    <div class="cs">
+      <p>Pros consistently asked for their own website, but third-party builders were expensive, disconnected from StyleSeat's booking system, and required starting from scratch.</p>
+      <p>This feature didn't exist on the platform before I started. No prior version, no internal framework, just a strong signal from pros that they needed it.</p>
+    </div>
     <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">StyleSeat Profile &amp; Competitors</span>
       <div class="competitor-track">
@@ -2236,24 +2295,19 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <p>Pros consistently asked for their own website, but third-party builders were expensive, disconnected from StyleSeat's booking system, and required starting from scratch.</p>
-      <p>This feature didn't exist on the platform before I started. No prior version, no internal framework, just a strong signal from pros that they needed it.</p>
-    </div>
-    <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>How I solved it.</h3>
     </div>
         <div class="decisions-stack">
       <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
+        <div class="decision-visual gallery-reveal"><div class="decision-visual-stack">
+            <img src="part1.webp" alt="Custom Websites builder step screen" loading="lazy">
+            <img src="part2.webp" alt="Custom Websites builder step screen" loading="lazy">
+          </div></div>
         <div class="decision-caption"><h4>Six-step builder with zero technical decisions</h4><p>Every step was designed to require only a creative choice, not a technical one. Pick a template, set colors, choose a hero image, write a headline, select light or dark theme, preview and publish. The site automatically pulled in the pro's existing services, bio, and booking link so it felt personalized from the very first step.</p></div>
       </div>
       <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
+        <div class="decision-visual gallery-reveal"><img src="herogallery.webp" alt="Three-option hero image selection screen" loading="lazy"></div>
         <div class="decision-caption"><h4>Three-option hero image system</h4><p>The hero image is the most important element on any website and the one most likely to get skipped if it felt too complicated. I designed three paths: a curated default, a StyleSeat photo library we built specifically for this feature with professional beauty photography, or the pro's own upload. Building and curating that library was part of the design work.</p></div>
       </div>
     </div>
@@ -2261,16 +2315,30 @@ footer {
       <div class="cs-label">Solution</div>
       <h3>Three templates. A six-step builder. Live in minutes.</h3>
     </div>
-    <div class="solution-gallery-wrap gallery-reveal">
+    <div class="cs">
+      <p>Three professionally designed templates that pull from the pro's existing profile, a six-step builder with no technical decisions, and a hero image system with three options. Custom Websites launched free so pros could experience the value before committing, then converted to a $10 per month add-on.</p>
+    </div>
+    <div class="solution-gallery-wrap gallery-reveal wide-gallery">
       <div class="solution-gallery">
-        <img src="finalcustweb1.webp" alt="Custom Websites template selection screen" loading="lazy">
         <img src="finalcustweb2.webp" alt="Custom Websites builder brand customization screen" loading="lazy">
         <img src="finalcustweb5.webp" alt="Custom Websites hero image selection screen" loading="lazy">
         <img src="finalcustweb4.webp" alt="Custom Websites published site preview" loading="lazy">
+        <img src="temp1.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp2.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp3.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp4.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp5.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp6.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp7.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp8.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp9.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp10.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp11.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp12.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp13.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp14.webp" alt="Custom Websites additional screen" loading="lazy">
+        <img src="temp15.webp" alt="Custom Websites additional screen" loading="lazy">
       </div>
-    </div>
-    <div class="cs">
-      <p>Three professionally designed templates that pull from the pro's existing profile, a six-step builder with no technical decisions, a hero image system with three options, and a $10 per month paywall designed to feel like a natural next step for pros who had already seen their site live during the free trial.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Impact</div>
@@ -2319,7 +2387,7 @@ footer {
     <div class="case-hero-inner">
       <button class="back-btn" onclick="showHome('work')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.9999 8C13.9999 8.13261 13.9472 8.25979 13.8535 8.35356C13.7597 8.44733 13.6325 8.5 13.4999 8.5H3.70678L7.35366 12.1463C7.40011 12.1927 7.43696 12.2479 7.4621 12.3086C7.48724 12.3693 7.50018 12.4343 7.50018 12.5C7.50018 12.5657 7.48724 12.6308 7.4621 12.6915C7.43696 12.7521 7.40011 12.8073 7.35366 12.8538C7.3072 12.9002 7.25205 12.9371 7.19135 12.9622C7.13066 12.9873 7.0656 13.0003 6.99991 13.0003C6.93421 13.0003 6.86915 12.9873 6.80846 12.9622C6.74776 12.9371 6.69261 12.9002 6.64615 12.8538L2.14615 8.35375C2.09967 8.30732 2.06279 8.25217 2.03763 8.19147C2.01246 8.13077 1.99951 8.06571 1.99951 8C1.99951 7.9343 2.01246 7.86923 2.03763 7.80853C2.06279 7.74783 2.09967 7.69269 2.14615 7.64625L6.64615 3.14625C6.73997 3.05243 6.86722 2.99973 6.99991 2.99973C7.13259 2.99973 7.25984 3.05243 7.35366 3.14625C7.44748 3.24007 7.50018 3.36732 7.50018 3.5C7.50018 3.63269 7.44748 3.75993 7.35366 3.85375L3.70678 7.5H13.4999C13.6325 7.5 13.7597 7.55268 13.8535 7.64645C13.9472 7.74022 13.9999 7.86739 13.9999 8Z" fill="currentColor"/></svg> All Work</button>
       <h1 class="case-hero-title">Medicare Shopping Experience</h1>
-      <p class="case-hero-sub">Simplifying the hardest parts of Medicare shopping for seniors on mobile. Plan comparison, plan details, drug lookup, and a guided recommendation tool. I applied years of health insurance domain knowledge to problems most designers would struggle to even frame correctly.</p>
+      <p class="case-hero-sub">Plan comparison, plan details, and a guided recommendation tool. I applied years of health insurance domain knowledge to one of the most complex consumer experiences in healthcare.</p>
     </div>
     <img class="case-hero-fade" src="graygrad.svg" alt="" />
   </div>
@@ -2335,6 +2403,10 @@ footer {
       <div class="cs-label">Background</div>
       <h3>Medicare is genuinely hard to shop for. We had to make it feel easy.</h3>
     </div>
+    <div class="cs">
+      <p>HealthInsurance.com was rebuilding its Medicare experience alongside a company rebrand and a tech stack migration, with open enrollment as the hard deadline.</p>
+      <p>The existing site had dense information, accessibility failures, and a design that treated seniors the same as every other user.</p>
+    </div>
     <div class="competitor-card gallery-reveal">
       <span class="competitor-pill">Previous Experience</span>
       <div class="competitor-track">
@@ -2345,41 +2417,36 @@ footer {
       </div>
     </div>
     <div class="cs">
-      <p>HealthInsurance.com was rebuilding its Medicare experience alongside a company rebrand and a tech stack migration, with open enrollment as the hard deadline.</p>
-      <p>The existing site had dense information, accessibility failures, and a design that treated seniors the same as every other user.</p>
-    </div>
-    <div class="cs">
       <div class="cs-label">Key Design Decisions</div>
       <h3>Where my work made the biggest difference.</h3>
     </div>
         <div class="decisions-stack">
-      <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
-        <div class="decision-caption"><h4>Sequential drug lookup</h4><p>The original form put all the fields on one screen: drug name, dosage, form, and frequency, all at once. For a senior trying to confirm their prescriptions were covered, it was overwhelming. I redesigned it as one input per screen in a step-by-step sequence. Completion rates improved and confusion dropped significantly.</p></div>
-      </div>
-      <div class="decision-block">
-        <div class="decision-visual gallery-reveal"><img class="decision-glow-red" src="red.svg" alt="">
-            <img class="decision-glow-blue" src="blue.svg" alt="">
-            <div class="decision-img-placeholder">Place Holder</div></div>
-        <div class="decision-caption"><h4>Mobile plan comparison</h4><p>Side-by-side comparison tables fall apart on a narrow phone screen. I redesigned the layout to stack content within each plan vertically so users could scan one plan at a time, with the most important attributes always visible. The goal was making differences easy to spot, not showing everything at once.</p></div>
-      </div>
+      <div class="decision-caption"><h4>Help Me Choose guided flow</h4><p>After research showed 90% of users preferred to be guided rather than browse independently, I helped shape the guided plan recommendation experience we called "Help Me Choose." I contributed to the question set, the interaction pattern, and the senior accessibility decisions throughout. We designed one question per screen with large tappable buttons so seniors on mobile could move through the flow without feeling overwhelmed. The drug and doctor lookup steps used typeahead and prefilled fields to reduce friction at the most complex part of the flow.</p></div>
+      <div class="decision-caption"><h4>Plan pages, details, and comparison</h4><p>I designed the plan results pages, plan detail pages, and plan comparison experience — the parts of the product where my health insurance background mattered most. Knowing which data seniors actually use to make a decision, how to surface deductibles versus out-of-pocket maximums clearly, and how to make a comparison table work on a narrow mobile screen required domain knowledge most designers on the team didn't have. I also designed a user ID feature that connected a shopper's digital session to the call center, so agents could pick up the conversation without starting from scratch.</p></div>
+      <div class="decision-visual gallery-reveal"><div class="decision-visual-stack">
+          <img src="personas.webp" alt="Medicare shopper persona research" loading="lazy">
+          <img src="journey_map.webp" alt="Medicare shopper journey map" loading="lazy">
+          <img src="competitive.webp" alt="Medicare competitive analysis" loading="lazy">
+          <img src="helpmechoose.webp" alt="Medicare Help Me Choose guided flow screen" loading="lazy">
+        </div></div>
     </div>
     <div class="cs">
       <div class="cs-label">Solution</div>
-      <h3>Simpler inputs, better comparisons, clearer recommendations.</h3>
+      <h3>Guided shopping, clearer comparisons, better recommendations.</h3>
     </div>
-    <div class="solution-gallery-wrap gallery-reveal">
+    <div class="cs">
+      <p>A Help Me Choose guided flow that asked one question per screen with large tappable buttons, built for seniors on mobile who wanted to be led to the right plan rather than left to browse. A plan comparison experience redesigned to make the most important attributes scannable without getting lost in the data. And a filter system built around what seniors actually use to narrow their decision: premium range, drug coverage, star rating, and provider network, rather than exposing every possible plan attribute upfront.</p>
+    </div>
+    <div class="solution-gallery-wrap gallery-reveal wide-gallery">
       <div class="solution-gallery">
+        <img src="hmc1.webp" alt="HealthInsurance.com Help Me Choose screen" loading="lazy">
+        <img src="hmc2.webp" alt="HealthInsurance.com Help Me Choose screen" loading="lazy">
+        <img src="hmc3.webp" alt="HealthInsurance.com Help Me Choose screen" loading="lazy">
         <img src="hi1.webp" alt="HealthInsurance.com drug lookup screen" loading="lazy">
         <img src="hi2.webp" alt="HealthInsurance.com mobile plan comparison screen" loading="lazy">
         <img src="hi3.webp" alt="HealthInsurance.com plan results and filters screen" loading="lazy">
         <img src="hi4.webp" alt="HealthInsurance.com Help Me Choose guided tool screen" loading="lazy">
       </div>
-    </div>
-    <div class="cs">
-      <p>A guided drug lookup with one input per screen, a redesigned mobile comparison layout, a filter system built around the attributes seniors actually use to make decisions, and a Help Me Choose tool where I contributed the question set and the plan summary screen. The summary showed a plain-language overview tied directly to the user's answers, not a full data dump of every plan attribute.</p>
     </div>
     <div class="cs">
       <div class="cs-label">Impact</div>

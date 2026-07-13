@@ -2493,11 +2493,15 @@ footer {
 
 <script>
 // ── NAVIGATION ──
-function showHome(section) {
+const CASE_NAMES = ['deposits', 'spb', 'cw', 'medicare'];
+
+// Pure DOM updates — no history/hash side effects, safe to call from the
+// hashchange handler (browser back/forward) as well as from click handlers.
+function renderHome(section) {
   const homePage = document.getElementById('home-page');
   const cameFromCase = document.querySelector('.case-page.active') !== null;
   homePage.style.display = 'block';
-  ['deposits','spb','cw','medicare'].forEach(id => {
+  CASE_NAMES.forEach(id => {
     const el = document.getElementById('case-' + id);
     if (el) el.classList.remove('active');
   });
@@ -2516,9 +2520,9 @@ function showHome(section) {
   observeFI();
 }
 
-function showCase(name) {
+function renderCase(name) {
   document.getElementById('home-page').style.display = 'none';
-  ['deposits','spb','cw','medicare'].forEach(id => {
+  CASE_NAMES.forEach(id => {
     const el = document.getElementById('case-' + id);
     if (el) el.classList.remove('active');
   });
@@ -2530,11 +2534,46 @@ function showCase(name) {
   updateAllCompetitorFades();
 }
 
+// Click-facing entry points — these update the URL hash so the browser's
+// native back/forward buttons can navigate between home and case studies.
+function showHome(section) {
+  const hash = '#' + (section && section !== 'top' ? section : 'top');
+  if (location.hash === hash) {
+    renderHome(section);
+  } else {
+    location.hash = hash;
+  }
+}
+
+function showCase(name) {
+  const hash = '#case-' + name;
+  if (location.hash === hash) {
+    renderCase(name);
+  } else {
+    location.hash = hash;
+  }
+}
+
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
   markNavInteraction();
 }
+
+function routeFromHash() {
+  const hash = location.hash.replace(/^#/, '');
+  if (hash.startsWith('case-')) {
+    const name = hash.slice(5);
+    if (CASE_NAMES.includes(name)) {
+      renderCase(name);
+      return;
+    }
+  }
+  renderHome(hash === 'top' ? null : hash);
+}
+
+window.addEventListener('hashchange', routeFromHash);
+if (location.hash) routeFromHash();
 
 // ── NAV SCROLL STATE ──
 let lastScrollY = window.scrollY;

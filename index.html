@@ -2526,7 +2526,13 @@ function renderCase(name) {
     if (el) el.classList.remove('active');
   });
   const target = document.getElementById('case-' + name);
-  if (target) target.classList.add('active');
+  if (target) {
+    target.classList.add('active');
+    // Images inside a case page are display:none until this class is added,
+    // so the browser's native loading="lazy" viewport check can never fire
+    // for them on their own — force them to load now that they're visible.
+    target.querySelectorAll('img[loading="lazy"]').forEach(img => img.removeAttribute('loading'));
+  }
   window.scrollTo({ top: 0, behavior: 'instant' });
   markNavInteraction();
   observeFI();
@@ -2572,7 +2578,6 @@ function routeFromHash() {
 }
 
 window.addEventListener('hashchange', routeFromHash);
-if (location.hash) routeFromHash();
 
 // ── NAV SCROLL STATE ──
 let lastScrollY = window.scrollY;
@@ -2706,6 +2711,11 @@ initCompetitorFades();
     }
   }, { passive: true });
 })();
+
+// Deep-link support: if the page loads with a case-study or section hash
+// already in the URL (e.g. a hard refresh), render that view. Runs last so
+// everything it depends on (markNavInteraction, observeFI, etc.) is defined.
+if (location.hash) routeFromHash();
 </script>
 </body>
 </html>
